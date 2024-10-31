@@ -1,5 +1,39 @@
 # epfu24W-103-D-penguins
 
+This project was made to house the Penguin board game for Programming fundamental class. The project is done and managed by group D, consisting of: Nguyen Huynh Gia Bao, Priyanshu Rajput
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## Getting started
