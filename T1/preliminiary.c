@@ -50,6 +50,7 @@ int ValidateMove(int m, int n, int board[m][n],int x, int y){
 
 int CollectPoints(int m,int n,int board[m][n],int x,int y){
     //collects point from a tile
+    return 0;
 }
 
 int CheckStuck(int m, int n,int board[m][n],int sign){
@@ -113,7 +114,7 @@ int main(){
                 last_player=2;
                 continue;
             }else if(CheckStuck(m,n,board,8)==1 || CheckStuck(m,n,board,9)==1){
-                printf("Neither player can move");
+                printf("Neither player can move\n");
                 break;
             }else{
                 do{
@@ -128,11 +129,11 @@ int main(){
 
     //Summarization
     if (points1>points2){
-        printf("Player one wins\n");
+        printf("\nPlayer one wins\n");
     }else if(points2>points1){
-        printf("Player two wins\n");
+        printf("\nPlayer two wins\n");
     }else{
-        printf("Game ended in a draw\n");
+        printf("\nGame ended in a draw\n");
     }
 
 }
