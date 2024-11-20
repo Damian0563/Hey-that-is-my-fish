@@ -23,6 +23,7 @@ int ValidateDimensionsAndPenguins(int *m,int *n,int *penguins){
 
 void AskForPenguins(int *penguins){
     //asks for the amount of penguins each player should have
+    *penguins=(rand()%3)+1;
 }
 
 int GenerateTile(){
@@ -49,8 +50,8 @@ int ValidateMove(int m, int n, int board[m][n],int x, int y){
 }
 
 int CollectPoints(int m,int n,int board[m][n],int x,int y){
-    //collects point from a tile
-    return 0;
+    //collects point from a tile, rand for testing
+    return (rand()%3)+1;
 }
 
 int CheckStuck(int m, int n,int board[m][n],int sign){
@@ -60,12 +61,16 @@ int CheckStuck(int m, int n,int board[m][n],int sign){
 
 int main(){
     srand(time(NULL));
-    int m,n,penguins,points1=0,points2=0;
+    int m,n,penguins=0;
     do{
         AskForDimensions(&m,&n);
         AskForPenguins(&penguins);
     }while(ValidateDimensionsAndPenguins(&m,&n,&penguins)==1);
     int total=2*penguins,last_player=2;
+    int points1=penguins, points2=penguins;
+    //initializing points1 and points2 as the amount of penguins each player should have- players can place their 
+    //penguins only on tiles with one fish on it, therefor after the placement phase players points are equal to amount
+    //of their penguins
     int board[m][n];
     GenerateBoard(m,n,board);
     // placement phase begins
@@ -128,6 +133,7 @@ int main(){
     }while(1);
 
     //Summarization
+    printf("\nPlayer 1: %d, Player 2: %d",points1,points2);
     if (points1>points2){
         printf("\nPlayer one wins\n");
     }else if(points2>points1){
