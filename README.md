@@ -1,6 +1,14 @@
 # epfu24W-103-D-penguins
 
-This project was made to house the Penguin board game for Programming fundamental class. The project is done and managed by group D, consisting of: Nguyen Huynh Gia Bao, Priyanshu Rajput and Damian Piechocki
+This project was made to house the Penguin board game for Programming fundamental class. The project is done and managed by group D, consisting of: Nguyen Huynh Gia Bao, Priyanshu Rajput and Damian Piechocki.
+
+This project is divided ito 6 Major Tasks i.e. T1 to T6. Each of the tasks has a specified work.
+
+We will create files for the each of the tasks and will showcase the team's progress via Gitlab.
+
+T1 : For the following task, We have used the flowchart drawn by Nguyen Huynh Gia Bao and we organised our work for individuals.
+
+
 
 
 
