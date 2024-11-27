@@ -23,13 +23,19 @@ int ValidateCoordinates(int m, int n, int board[m][n],int x, int y){
 }
 
 int ValidateDimensionsAndPenguins(int *m,int *n,int *penguins){
-    //validates dimensions and penguins
-    return rand()%3;
+    if (*m>0 && *n>0 && *penguins*2>(*m)*(*n)){
+        printf("Invalid parameters");
+        return 0;
+    }
+    return 1;
 }
 
 void AskForPenguins(int *penguins){
     //asks for the amount of penguins each player should have
-    *penguins=(rand()%3)+1;
+    int ans;
+    printf("How many penguins each player should have: ");
+    scanf("%d",&ans);
+    *penguins=ans;
 }
 
 int GenerateTile(){
@@ -38,11 +44,44 @@ int GenerateTile(){
 }
 
 void GenerateBoard(int m, int n, int board[m][n]){
+void GenerateBoard(int* m, int* n, int* penguins){
     //generates the board
+    int ans;
+    do{
+        printf("Would you like to generate a board manually or artificially: 1[manually] or 2[artificially]: ");
+        scanf("%d",&ans);
+    }
+    while(ans!=1 && ans!=2);
+    if(ans==1){
+        do{
+            AskForDimensions(m,n);
+            AskForPenguins(penguins);
+        }while(ValidateDimensionsAndPenguins(m,n,penguins)==0);
+        
+    }else{
+        *m=(rand()%10)+1;
+        *n=(rand()%10)+1;
+        *penguins=(rand()%3)+1;
+    }
+}
+
+void FillBoard(int m,int n,int board[m][n],int penguins){
+    //to do: ensure the amount of ones one the board is atleast that of penguins
+    for(int i=0;i<m;i++){
+        for(int j=0;j<n;j++){
+            board[i][j]=GenerateTile();
+        }
+    }
 }
 
 void ShowBoard(int m,int n,int board[m][n]){
     //displays the board
+    for(int i=0;i<m;i++){
+        for(int j=0;j<n;j++){
+            printf(" %d ",board[i][j]);
+        }
+        printf("\n");
+    }
 }
 
 
@@ -68,18 +107,19 @@ int CheckStuck(int m, int n,int board[m][n],int sign){
 int main(){
     srand(time(NULL));
     int m,n,penguins=0;
-    do{
-        AskForDimensions(&m,&n);
-        AskForPenguins(&penguins);
-    }while(ValidateDimensionsAndPenguins(&m,&n,&penguins)==1);
+    GenerateBoard(&m,&n,&penguins);
+    int board[m][n];
+    FillBoard(m,n,board,penguins);
     int total=2*penguins,last_player=2;
     int points1=penguins, points2=penguins;
+    printf("\nGenerated board: \n");
+    ShowBoard(m,n,board);   //other showboards comented for testing/clarity purposes
     //initializing points1 and points2 as the amount of penguins each player should have- players can place their 
     //penguins only on tiles with one fish on it, therefor after the placement phase players points are equal to amount
     //of their penguins
-    int board[m][n];
-    GenerateBoard(m,n,board);
+
     // placement phase begins
+    printf("\nPlacement phase commences\n");
     do{
         int x,y;
         if (last_player==2){
@@ -87,20 +127,21 @@ int main(){
                 AskForCoordinates(&x,&y);
             }while(ValidateCoordinates(m,n,board,x,y)==1);
             PlacePenguin(m,n,board,x,y,8);
-            ShowBoard(m,n,board);
+            //ShowBoard(m,n,board);
             last_player=1;
         }else{
             do{
                 AskForCoordinates(&x,&y);
             }while(ValidateCoordinates(m,n,board,x,y)==1);
             PlacePenguin(m,n,board,x,y,9);
-            ShowBoard(m,n,board);
+            //ShowBoard(m,n,board);
             last_player=2;
         }
         total-=1;
     }while(total>0); 
 
     // movement phase begins
+    printf("\nMovement phase commences\n");
     do {
         int x,y;
         int stuck=0;
@@ -117,7 +158,7 @@ int main(){
                 }while(ValidateCoordinates(m,n,board,x,y)==1 && ValidateMove(m,n,board,x,y)==1);
                 points1+=CollectPoints(m,n,board,x,y);
                 PlacePenguin(m,n,board,x,y,8);
-                ShowBoard(m,n,board);
+                //ShowBoard(m,n,board);
                 last_player=1;
             }
         }else{
@@ -133,12 +174,13 @@ int main(){
                 }while(ValidateCoordinates(m,n,board,x,y)==1 || ValidateMove(m,n,board,x,y)==1);
                 points2+=CollectPoints(m,n,board,x,y);
                 PlacePenguin(m,n,board,x,y,9);
-                ShowBoard(m,n,board);
+                //ShowBoard(m,n,board);
                 last_player=2;
             }}
     }while(1);
 
     //Summarization
+    printf("\nSummarisation Phase\n");
     printf("\nPlayer 1: %d, Player 2: %d",points1,points2);
     if (points1>points2){
         printf("\nPlayer one wins\n");
