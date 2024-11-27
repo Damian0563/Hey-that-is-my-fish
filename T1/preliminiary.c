@@ -43,7 +43,6 @@ int GenerateTile(){
     return rand()%4;
 }
 
-void GenerateBoard(int m, int n, int board[m][n]){
 void GenerateBoard(int* m, int* n, int* penguins){
     //generates the board
     int ans;
@@ -107,6 +106,7 @@ int CheckStuck(int m, int n,int board[m][n],int sign){
 int main(){
     srand(time(NULL));
     int m,n,penguins=0;
+    int stuck=0;
     GenerateBoard(&m,&n,&penguins);
     int board[m][n];
     FillBoard(m,n,board,penguins);
@@ -144,14 +144,11 @@ int main(){
     printf("\nMovement phase commences\n");
     do {
         int x,y;
-        int stuck=0;
+        
         if (last_player==2){
             if(CheckStuck(m,n,board,8)==1){
                 last_player=1;
-                continue;
-            }else if(CheckStuck(m,n,board,8)==1 && CheckStuck(m,n,board,9)==1){
-                printf("Neither player can move");
-                break;
+                stuck++;
             }else{
                 do{
                     AskForCoordinates(&x,&y);
@@ -160,14 +157,12 @@ int main(){
                 PlacePenguin(m,n,board,x,y,8);
                 //ShowBoard(m,n,board);
                 last_player=1;
+                stuck=0;
             }
         }else{
             if(CheckStuck(m,n,board,9)==1){
                 last_player=2;
-                continue;
-            }else if(CheckStuck(m,n,board,8)==1 || CheckStuck(m,n,board,9)==1){
-                printf("Neither player can move\n");
-                break;
+                stuck++;
             }else{
                 do{
                     AskForCoordinates(&x,&y);
@@ -176,9 +171,10 @@ int main(){
                 PlacePenguin(m,n,board,x,y,9);
                 //ShowBoard(m,n,board);
                 last_player=2;
+                stuck=0;
             }}
-    }while(1);
-
+    }while(stuck<2);
+    printf("Neither player can move. Game Ending...");
     //Summarization
     printf("\nSummarisation Phase\n");
     printf("\nPlayer 1: %d, Player 2: %d",points1,points2);
