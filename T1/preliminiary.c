@@ -2,8 +2,14 @@
 #include <time.h>
 #include <stdlib.h>
 
-void AskForDimensions(int *m, int *n){
-    //asks for board dimensions
+void AskForDimensions(int *m, int *n){   
+    int x,y;
+    printf("\nHow many rows should the board have: ");
+    scanf("%d",&x);
+    printf("How many columns should the board have: ");
+    scanf("%d",&y);
+    *m=x;
+    *n=y;
 }
 
 void AskForCoordinates(int *x, int *y){
