@@ -6,7 +6,8 @@ This project is divided ito 6 Major Tasks i.e. T1 to T6. Each of the tasks has a
 
 We will create files for the each of the tasks and will showcase the team's progress via Gitlab.
 
-T1 : For the following task, We have used the flowchart drawn by Nguyen Huynh Gia Bao and we organised our work for individuals.
+T1 : For the following task, We have used the flowchart drawn by Nguyen Huynh Gia Bao and we organised our work for individuals.The preliminary code has the functions to be used later for the full code by void functions and return random values to mimic what the functions will return to output the results of the game.
+
 
 
 
