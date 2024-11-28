@@ -72,7 +72,7 @@ void GenerateBoard(int* m, int* n, int* penguins)
     {
         *m=(rand()%10)+1;
         *n=(rand()%10)+1;
-        *penguins=(rand()%3)+1;
+        AskForPenguins(penguins);
     }
 }
 
