@@ -28,7 +28,7 @@ int ValidateCoordinates(int m, int n, int board[m][n],int x, int y)
 int ValidateDimensionsAndPenguins(int* m,int* n,int* penguins)
 {
     if (*m>0 && *n>0 && *penguins*2>(*m)*(*n)){
-        printf("Invalid parameters");
+        printf("Invalid parameters\n");
         return 0;
     }
     return 1;
@@ -69,10 +69,13 @@ void GenerateBoard(int* m, int* n, int* penguins)
         
     }
     else
-    {
-        *m=(rand()%10)+1;
-        *n=(rand()%10)+1;
-        AskForPenguins(penguins);
+    {   
+        //+1 needed for logic, +3 needed for clarity, readable board, it is a board at least 3x3
+        do{
+            *m=(rand()%10)+3;
+            *n=(rand()%10)+3;
+            AskForPenguins(penguins);
+        }while(ValidateDimensionsAndPenguins(m,n,penguins)==0);
     }
 }
 
