@@ -78,9 +78,9 @@ void FillBoard(int m,int n,int board[m][n],int penguins)
     }
     if (ones<penguins){
         while(ones<penguins){
-            gen_i=rand()%m;
-            gen_j=rand()%n;
-            if board[gen_i][gen_j]!=1{
+            int gen_i=rand()%m;
+            int gen_j=rand()%n;
+            if (board[gen_i][gen_j]!=1){
                 board[gen_i][gen_j]=1;
                 ones++;
             }
