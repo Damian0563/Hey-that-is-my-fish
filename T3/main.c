@@ -2,7 +2,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include "placement.h"
-
+#include "movement.h"
 
 void ShowBoard(int m,int n,int board[m][n])
 {
@@ -23,33 +23,6 @@ void ShowBoard(int m,int n,int board[m][n])
     }
 }
 
-void MovePenguin(int m, int n,int board[m][n],int x, int y, int sign){
-    //Moves penguin in the movement phase
-}
-
-void AskForCoordinatesMovement(int *x, int *y, int *x1, int *y1)
-{
-    //asks user for input in movement/placement phase
-}
-
-
-int ValidateMove(int m, int n, int board[m][n],int x, int y,int x1,int y1)
-{
-    //Validates players move and selected coordinates of a penguins to move
-    return rand()%4;
-}
-
-int CollectPoints(int m,int n,int board[m][n],int x,int y)
-{
-    //collects point from a tile, rand for testing
-    return (rand()%3)+1;
-}
-
-int CheckStuck(int m, int n,int board[m][n],int sign)
-{
-    //checking if a player is stuck ,rand for now
-    return rand()%4;
-}
 
 int main()
 {
@@ -57,7 +30,7 @@ int main()
     int m,n,stuck=0,penguins=0;
     GenerateBoard(&m,&n,&penguins);
     int board[m][n];
-    int total=2*penguins,last_player=2;
+    int total=2*penguins,cur_player=1;
     FillBoard(m,n,board,total);
     int points1=penguins, points2=penguins;
     printf("\nGenerated board: \n");
@@ -70,15 +43,15 @@ int main()
     printf("\nPlacement phase commences\n\n");
     do{
         int x,y;
-        int sign=last_player==2?8:9;
-        printf("\nPlayer %s place your penguin\n",last_player==2?"one":"two");
+        int sign=cur_player==1?8:9;
+        printf("\nPlayer %s place your penguin\n",cur_player==1?"one":"two");
         do
         {
             AskForCoordinates(&x,&y);
         }while(ValidateCoordinates(m,n,board,x,y)==1);
         PlacePenguin(m,n,board,x,y,sign);
         ShowBoard(m,n,board);
-        last_player=last_player==2?1:0;
+        cur_player=cur_player==1?2:1;
         total-=1;
     }while(total>0); 
 
@@ -87,22 +60,23 @@ int main()
     do 
     {
         int x,y,x1,y1;
-        int sign=last_player==2?8:9;
-        if(CheckStuck(m,n,board,sign)==1)
+        int sign=cur_player==1?8:9;
+        if(CheckStuck(m,n,board,sign,penguins)==1)
         {
-            last_player=last_player==2?1:2;
+            cur_player=cur_player==1?2:1;
             stuck++;
         }
         else
         {
             do
             {
-                AskForCoordinatesMovement(&x,&y,&x1,&y1);
+                AskForCoordinatesOfP(&x,&y,m,n,sign,board);
+                AskForCoordinatesMovement(&x,&y,&x1,&y1,m,n, sign,board);
             }while(ValidateMove(m,n,board,x,y,x1,y1)==1);
-            points1+=CollectPoints(m,n,board,x,y);
-            MovePenguin(m,n,board,x,y,sign);
-            //ShowBoard(m,n,board);
-            last_player=last_player==2?1:2;
+            CollectPoints(m,n,board,&x1,&y1,points1,points2,cur_player);
+            MovePenguin(m,n,board,&x,&y,&x1,&y1,sign);
+            ShowBoard(m,n,board);
+            cur_player=cur_player==1?2:1;
             stuck=0;
         }
     }while(stuck<2);
@@ -122,5 +96,5 @@ int main()
     {
         printf("\nGame ended in a draw\n");
     }
-
+    return 0;
 }
