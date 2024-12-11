@@ -2,6 +2,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include "placement.h"
+#include "utils.h"
 
 
 void GenerateBoard(int* m, int* n, int* penguins)

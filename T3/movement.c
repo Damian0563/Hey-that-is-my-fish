@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "movement.h"
+#include "utils.h"
 
 void MovePenguin(int m, int n,int board[m][n],int *x, int *y, int *x1, int *y1, int sign)
 {
-    //Moves penguin in the movement phase
     int newX=*x1;
     int newY=*y1;
     int oldX=*x;
@@ -13,7 +13,7 @@ void MovePenguin(int m, int n,int board[m][n],int *x, int *y, int *x1, int *y1, 
     board[oldX][oldY] = 0;
 }
 
-void AskForCoordinatesOfP(int *x, int *y, int m, int n, int sign, int board[m][n])
+void AskForCoordinatesOfPenguin(int *x, int *y, int m, int n, int sign, int board[m][n])
 {
     int newX;
     int newY;
@@ -47,6 +47,8 @@ void AskForCoordinatesMovement(int *x, int *y, int *x1,int *y1, int m, int n, in
             if(newX<0 || newX>=m || newY<0 || newY>n)
             {
                 printf("Your inputs are out of bounds\n");
+                printf("Where do you want to move your penguin? (x y):\n");
+                scanf("%d %d",x1,y1);
             }
         } while (newX<0 || newX>=m || newY<0 || newY>n);
         
@@ -59,7 +61,6 @@ void AskForCoordinatesMovement(int *x, int *y, int *x1,int *y1, int m, int n, in
 
 int ValidateMove(int m, int n, int board[m][n],int x, int y,int x1,int y1)
 {
-    //Validates players move and selected coordinates of a penguins to move
     if(x1>x)
     {
         for(int i = x+1; i <= x1;i++)
@@ -113,22 +114,14 @@ int ValidateMove(int m, int n, int board[m][n],int x, int y,int x1,int y1)
     }
 }
 
-void CollectPoints(int m,int n,int board[m][n],int *x1,int *y1, int points1, int points2,int cur_player)
+void CollectPoints(int m,int n,int board[m][n],int *x1,int *y1, int *point)
 {
     int newX = *x1;
     int newY = *y1;
-    if(cur_player==1)
-    {
-        points1+=board[newX][newY];
-    }
-    else
-    {
-        points2+=board[newX][newY];
-    }
+    *point+=board[newX][newY];
 }
 
-//check the surrounding of the chosen index to see if it could move
-int checkSurr(int i, int j, int m, int n, int board[m][n])
+int CheckSurrounding(int i, int j, int m, int n, int board[m][n])
 {
     // Check if the penguin can move to any of the four adjacent cells
     if (i + 1 < m && (board[i + 1][j] == 1 || board[i + 1][j] == 2 || board[i + 1][j] == 3)) return 0; // Down
@@ -139,7 +132,6 @@ int checkSurr(int i, int j, int m, int n, int board[m][n])
 }
 
 
-//check if the index could move and output appropriate response
 int CheckStuck(int m, int n,int board[m][n],int sign, int penguins)
 {
     int totalCounter = 0;
@@ -149,7 +141,7 @@ int CheckStuck(int m, int n,int board[m][n],int sign, int penguins)
         {
             if(board[i][j] == sign)
             {
-                if(checkSurr(i,j,m,n,board)==0)
+                if(CheckSurrounding(i,j,m,n,board)==0)
                 {
                     continue;
                 }
@@ -163,26 +155,12 @@ int CheckStuck(int m, int n,int board[m][n],int sign, int penguins)
 
     if(totalCounter == penguins)
     {
-        if(sign == 8)
-        {
-            printf("Player one cannot move.\n");
-        }
-        else
-        {
-            printf("Player two cannot move.\n");
-        }
+        sign==8?printf("Player one can not move.\n"):printf("Player two can not move.\n");
         return 1;
     }
     else
-    {
-        if(sign == 8)
-        {
-            printf("Player one can move.\n");
-        }
-        else
-        {
-            printf("Player two can move.\n");
-        }
+    {   
+        sign==8?printf("Player one can move.\n"):printf("Player two can move.\n");
         return 0;
     }
 }

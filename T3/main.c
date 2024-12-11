@@ -3,20 +3,34 @@
 #include <stdlib.h>
 #include "placement.h"
 #include "movement.h"
+#include "utils.h"
 
 void ShowBoard(int m,int n,int board[m][n])
 {
-    //displays the board
-    for(int i=0;i<m;i++)
+    printf("\n   ");
+    for (int j = 0; j < n; j++) 
     {
-        for(int j=0;j<n;j++)
-        {   
+        if(j==0){
+            printf(" ");
+        }
+        printf("%4d", j);  // Print column headers
+    }
+    printf("\n   ");
+    for (int j = 0; j < n+1; j++) 
+    {
+        printf("----"); // Separator line below headers
+    }
+    printf("\n");
+    for (int i = 0; i < m; i++) 
+    {
+        printf("%2d |", i); // Print row headers
+        for (int j = 0; j < n; j++) {
             if (board[i][j]==8){
-                printf("\033[1;31m %d \033[0m", board[i][j]);
+                printf("\033[1;31m%4d\033[0m", board[i][j]);
             }else if(board[i][j]==9){
-                printf("\033[1;34m %d \033[0m", board[i][j]);
+                printf("\033[1;34m%4d\033[0m", board[i][j]);
             }else{
-                printf(" %d ",board[i][j]);
+                printf("%4d",board[i][j]);
             }
         }
         printf("\n");
@@ -61,6 +75,7 @@ int main()
     {
         int x,y,x1,y1;
         int sign=cur_player==1?8:9;
+        int *point=cur_player==1?&points1:&points2;
         if(CheckStuck(m,n,board,sign,penguins)==1)
         {
             cur_player=cur_player==1?2:1;
@@ -70,10 +85,11 @@ int main()
         {
             do
             {
-                AskForCoordinatesOfP(&x,&y,m,n,sign,board);
+                AskForCoordinatesOfPenguin(&x,&y,m,n,sign,board);
                 AskForCoordinatesMovement(&x,&y,&x1,&y1,m,n, sign,board);
             }while(ValidateMove(m,n,board,x,y,x1,y1)==1);
-            CollectPoints(m,n,board,&x1,&y1,points1,points2,cur_player);
+            CollectPoints(m,n,board,&x1,&y1,point);
+            //printf("Points1: %d, Points2: %d",points1,points2); printing intermediate scores?
             MovePenguin(m,n,board,&x,&y,&x1,&y1,sign);
             ShowBoard(m,n,board);
             cur_player=cur_player==1?2:1;
