@@ -10,7 +10,7 @@ void AskForPenguins(int* penguins); // Asks user for the number of penguins per 
 int ValidateDimensionsAndPenguins(int* m, int* n, int* penguins); // Validates board dimensions and penguins count
 void AskForCoordinates(int* x, int* y); // Asks user for a coordinate
 int ValidateCoordinates(int m, int n, int board[m][n], int x, int y); // Validates if a coordinate is valid
-void AskForCoordinatesOfPenguin(int *x, int *y, int m, int n, int sign, int board[m][n]);// asks user which penguin to 
+void AskForCoordinatesOfPenguin(int *x, int *y, int m, int n, int sign, int board[m][n], int penguins);// asks user which penguin to 
 //move and performs neccessary validations
 void AskForCoordinatesMovement(int *x, int *y, int *x1,int *y1, int m, int n, int sign, int board[m][n]);//Asks where to
 //move earlier specified penguin and performs neccessary validations
