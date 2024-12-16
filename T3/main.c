@@ -52,7 +52,7 @@ int main()
         {
             do
             {
-                AskForCoordinatesOfPenguin(&x,&y,m,n,sign,board);
+                AskForCoordinatesOfPenguin(&x,&y,m,n,sign,board,penguins);
                 AskForCoordinatesMovement(&x,&y,&x1,&y1,m,n, sign,board);
             }while(ValidateMove(m,n,board,x,y,x1,y1)==1);
             CollectPoints(m,n,board,&x1,&y1,point);
