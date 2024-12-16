@@ -76,17 +76,34 @@ void AskForCoordinatesOfPenguin(int *x, int *y, int m, int n, int sign, int boar
 {
     int newX;
     int newY;
-    do
+    if(penguins==1)
     {
-        printf("Where is the penguin you want to move? (x y):\n");
-        scanf("%d %d",x,y);
-        newX=*x;
-        newY=*y;
-        if(board[newX][newY] != sign)
+        for(int i = 0; i< m; i++)
         {
-            printf("That is not your penguin, yours is denoted by: %d\n", sign);
-        }
-    } while (board[newX][newY] != sign);
+            for(int j = 0; j<n;j++)
+            {
+                if(board[i][j]==sign)
+                {
+                    *x= i;
+                    *y= j;
+                }
+            }
+        } 
+    }
+    else
+    {
+        do
+        {
+            printf("Where is the penguin you want to move? (x y):\n");
+            scanf("%d %d",x,y);
+            newX=*x;
+            newY=*y;
+            if(board[newX][newY] != sign)
+            {
+                printf("That is not your penguin, yours is denoted by: %d\n", sign);
+            }
+        } while (board[newX][newY] != sign);
+    }
 }
 
 void AskForCoordinatesMovement(int *x, int *y, int *x1,int *y1, int m, int n, int sign, int board[m][n])
