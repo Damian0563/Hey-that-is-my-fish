@@ -72,7 +72,7 @@ int ValidateCoordinates(int m, int n, int board[m][n], int x, int y) {
     return 1;
 }
 
-void AskForCoordinatesOfPenguin(int *x, int *y, int m, int n, int sign, int board[m][n])
+void AskForCoordinatesOfPenguin(int *x, int *y, int m, int n, int sign, int board[m][n], int penguins)
 {
     int newX;
     int newY;
