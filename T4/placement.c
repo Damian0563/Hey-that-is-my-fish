@@ -5,7 +5,7 @@
 #include "utils.h"
 #include "structs.h"
 
-void GenerateBoard(Board* board)
+void GenerateBoard(Board* board, int numPlayer)
 {
     int ans;
     do
@@ -20,7 +20,7 @@ void GenerateBoard(Board* board)
         {
             AskForDimensions(board);
             AskForPenguins(board);
-        }while(ValidateDimensionsAndPenguins(board)==0);
+        }while(ValidateDimensionsAndPenguins(board, numPlayer)==0);
         
     }
     else
@@ -30,11 +30,11 @@ void GenerateBoard(Board* board)
             board->rows=(rand()%10)+3;
             board->columns=(rand()%10)+3;
             AskForPenguins(board);
-        }while(ValidateDimensionsAndPenguins(board)==0);
+        }while(ValidateDimensionsAndPenguins(board, numPlayer)==0);
     }
 }
 
-void FillBoard(Board* board)
+void FillBoard(Board* board, int numPlayer)
 {
     int ones=0;
     board->array=(int **)malloc(board->rows * sizeof(int *));
@@ -56,20 +56,22 @@ void FillBoard(Board* board)
             }
         }
     }
-    if (ones<board->penguins_per_player*2){
-        while(ones<board->penguins_per_player*2){
-            int gen_i=rand()%board->rows;
-            int gen_j=rand()%board->columns;
-            if (board->array[gen_i][gen_j]!=1){
-                board->array[gen_i][gen_j]=1;
-                ones++;
-            }
+    while(ones<board->penguins_per_player*numPlayer){
+        int gen_i=rand()%board->rows;
+        int gen_j=rand()%board->columns;
+        if (board->array[gen_i][gen_j]!=1){
+            board->array[gen_i][gen_j]=1;
+            ones++;
         }
     }
 }   
 
-int GenerateTile(){return rand()%4;}
+int GenerateTile()
+{
+    return rand()%4;
+}
 
-void PlacePenguin(Board* board,int x, int y, int sign){board->array[x][y]=sign;}
-    
-
+void PlacePenguin(Board* board,int x, int y, int sign)
+{
+    board->array[x][y]=sign;
+}
