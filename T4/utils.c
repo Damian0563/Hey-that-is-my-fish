@@ -18,6 +18,25 @@ void WaitForEnter() {
     while (getchar() != '\n');
 }
 
+int askForPlayers(int numPlayer) 
+{
+    do
+    {
+        printf("Enter the number of players from 2 to 4 \n");
+        scanf("%d", &numPlayer);
+    } while (numPlayer < 2 || numPlayer > 4);
+    return numPlayer;
+}
+
+void initializePlayers(int numPlayer, Player players[]) 
+{              
+    
+    for (int i = 0; i < numPlayer; i++) 
+    {   
+        players[i].score = 0;
+    }
+}
+
 void AskForDimensions(Board* board) {
     printf("\nHow many rows should the board have: ");
     scanf("%d", &(board->rows));
@@ -30,8 +49,8 @@ void AskForPenguins(Board* board) {
     scanf("%d", &(board->penguins_per_player));
 }
 
-int ValidateDimensionsAndPenguins(Board* board) {
-    if (board->rows > 0 && board->columns > 0 && board->penguins_per_player * 2 > board->rows*board->columns) {
+int ValidateDimensionsAndPenguins(Board* board, int numPlayer) {
+    if (board->rows > 0 && board->columns > 0 && board->penguins_per_player * numPlayer > board->rows*board->columns) {
         printf("Invalid parameters\n");
         return 0;
     }
@@ -100,17 +119,17 @@ void AskForCoordinatesMovement(int *x, int *y, int *x1,int *y1, int sign,Board* 
     {
         printf("Where do you want to move your penguin? (x y):\n");
         scanf("%d %d",x1,y1);
-        newX=*x1;
-        newY=*y1;
         do
         {
-            if(newX<0 || newX>=board->rows || newY<0 || newY>board->columns)
+            newX=*x1;
+            newY=*y1;
+            if(newX<0 || newX>=board->rows || newY<0 || newY>=board->columns)
             {
                 printf("Your inputs are out of bounds\n");
                 printf("Where do you want to move your penguin? (x y):\n");
                 scanf("%d %d",x1,y1);
             }
-        } while (newX<0 || newX>=board->rows || newY<0 || newY>board->columns);
+        } while (newX<0 || newX>=board->rows || newY<0 || newY>=board->columns);
         
         if(newX!=oldX && newY!=oldY)
         {
@@ -119,6 +138,44 @@ void AskForCoordinatesMovement(int *x, int *y, int *x1,int *y1, int sign,Board* 
     } while (newX!=oldX && newY!=oldY);
 }
 
+void printScores(Player players[], int numPlayer) 
+{
+    printf("\nScores:\n");
+    for (int i = 0; i < numPlayer; i++) 
+    {
+        printf("Player %d score: %d\n", i+1, players[i].score);
+    }
+}
+
+void summerization(Player players[], int numPlayer)
+{
+    int highest = 0;
+    int player = 0;
+    int occurance = 0;
+    for(int i=0;i<numPlayer;i++)
+    {
+        if(players[i].score>highest)
+        {
+            occurance=0;
+            highest=players[i].score;
+            player=i+1;
+            
+        }
+        else if(players[i].score==highest)
+        {
+            occurance++;
+        }
+    }
+
+    if (occurance==0)
+    {
+        printf("Player %d wins with %d points!\n", player, highest);
+    }
+    else
+    {
+        printf("It's a tie!\n");
+    }
+}
 
 void ShowBoard(Board* board)
 {
@@ -140,10 +197,14 @@ void ShowBoard(Board* board)
     {
         printf("%2d |", i); // Print row headers
         for (int j = 0; j < board->columns; j++) {
-            if (board->array[i][j]==8){
-                printf("\033[1;31m%4d\033[0m", board->array[i][j]);
+            if (board->array[i][j]==6){
+                printf("\033[1;31m%4s\033[0m", "P1");
+            }else if(board->array[i][j]==7){
+                printf("\033[1;34m%4s\033[0m", "P2");
+            }else if(board->array[i][j]==8){
+                printf("\033[1;33m%4s\033[0m", "P3");
             }else if(board->array[i][j]==9){
-                printf("\033[1;34m%4d\033[0m", board->array[i][j]);
+                printf("\033[1;32m%4s\033[0m", "P4");
             }else{
                 printf("%4d",board->array[i][j]);
             }
