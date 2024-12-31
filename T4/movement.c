@@ -68,13 +68,6 @@ int ValidateMove(Board* board,int x, int y,int x1,int y1)
     }
 }
 
-void CollectPoints(Board* board,int *x1,int *y1, int *point)
-{
-    int newX = *x1;
-    int newY = *y1;
-    *point+=board->array[newX][newY];
-}
-
 int CheckSurrounding(int i, int j, Board* board)
 {
     // Check if the penguin can move to any of the four adjacent cells
@@ -109,12 +102,12 @@ int CheckStuck(Board* board,int sign)
 
     if(totalCounter == board->penguins_per_player)
     {
-        sign==8?printf("Player one can not move.\n"):printf("Player two can not move.\n");
+        printf("\nPlayer %d can not move.\n", sign -5);
         return 1;
     }
     else
     {   
-        sign==8?printf("Player one can move.\n"):printf("Player two can move.\n");
+        printf("\nPlayer %d can move.\n", sign -5);
         return 0;
     }
 }
