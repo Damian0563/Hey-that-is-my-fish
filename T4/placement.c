@@ -3,9 +3,9 @@
 #include <stdlib.h>
 #include "placement.h"
 #include "utils.h"
+#include "structs.h"
 
-
-void GenerateBoard(int* m, int* n, int* penguins)
+void GenerateBoard(Board* board)
 {
     int ans;
     do
@@ -18,41 +18,50 @@ void GenerateBoard(int* m, int* n, int* penguins)
     {
         do
         {
-            AskForDimensions(m,n);
-            AskForPenguins(penguins);
-        }while(ValidateDimensionsAndPenguins(m,n,penguins)==0);
+            AskForDimensions(board);
+            AskForPenguins(board);
+        }while(ValidateDimensionsAndPenguins(board)==0);
         
     }
     else
     {   
         //+1 needed for logic, +3 needed for clarity, readable board, it is a board at least 3x3
         do{
-            *m=(rand()%10)+3;
-            *n=(rand()%10)+3;
-            AskForPenguins(penguins);
-        }while(ValidateDimensionsAndPenguins(m,n,penguins)==0);
+            board->rows=(rand()%10)+3;
+            board->columns=(rand()%10)+3;
+            AskForPenguins(board);
+        }while(ValidateDimensionsAndPenguins(board)==0);
     }
 }
 
-void FillBoard(int m,int n,int board[m][n],int penguins)
+void FillBoard(Board* board)
 {
     int ones=0;
-    for(int i=0;i<m;i++)
+    board->array=(int **)malloc(board->rows * sizeof(int *));
+    if(board->array ==NULL){
+        printf("Memory allocation failed");
+        exit(EXIT_FAILURE);
+    }
+    for(int i=0;i<board->rows;i++){
+        board->array[i]=(int *)malloc(board->columns *sizeof(int));
+    }
+
+    for(int i=0;i<board->rows;i++)
     {
-        for(int j=0;j<n;j++)
+        for(int j=0;j<board->columns;j++)
         {
-            board[i][j]=GenerateTile();
-            if(board[i][j]==1){
+            board->array[i][j]=GenerateTile();
+            if(board->array[i][j]==1){
                 ones++;
             }
         }
     }
-    if (ones<penguins){
-        while(ones<penguins){
-            int gen_i=rand()%m;
-            int gen_j=rand()%n;
-            if (board[gen_i][gen_j]!=1){
-                board[gen_i][gen_j]=1;
+    if (ones<board->penguins_per_player*2){
+        while(ones<board->penguins_per_player*2){
+            int gen_i=rand()%board->rows;
+            int gen_j=rand()%board->columns;
+            if (board->array[gen_i][gen_j]!=1){
+                board->array[gen_i][gen_j]=1;
                 ones++;
             }
         }
@@ -61,6 +70,6 @@ void FillBoard(int m,int n,int board[m][n],int penguins)
 
 int GenerateTile(){return rand()%4;}
 
-void PlacePenguin(int m, int n, int board[m][n],int x, int y, int sign){board[x][y]=sign;}
+void PlacePenguin(Board* board,int x, int y, int sign){board->array[x][y]=sign;}
     
 

@@ -3,23 +3,23 @@
 #include "movement.h"
 #include "utils.h"
 
-void MovePenguin(int m, int n,int board[m][n],int *x, int *y, int *x1, int *y1, int sign)
+void MovePenguin(Board* board,int *x, int *y, int *x1, int *y1, int sign)
 {
     int newX=*x1;
     int newY=*y1;
     int oldX=*x;
     int oldY=*y;
-    board[newX][newY]= sign;
-    board[oldX][oldY] = 0;
+    board->array[newX][newY]= sign;
+    board->array[oldX][oldY] = 0;
 }
 
-int ValidateMove(int m, int n, int board[m][n],int x, int y,int x1,int y1)
+int ValidateMove(Board* board,int x, int y,int x1,int y1)
 {
     if(x1>x)
     {
         for(int i = x+1; i <= x1;i++)
         {
-            if(board[i][y1]==0||board[i][y1]==8||board[i][y1]==9)
+            if(board->array[i][y1]==0||board->array[i][y1]==8||board->array[i][y1]==9)
             {
                 printf("Path is blocked, choose another coordinate to move to\n");
                 return 1;
@@ -32,7 +32,7 @@ int ValidateMove(int m, int n, int board[m][n],int x, int y,int x1,int y1)
     {
         for(int i = x-1; i >= x1;i--)
         {
-            if(board[i][y1]==0||board[i][y1]==8||board[i][y1]==9)
+            if(board->array[i][y1]==0||board->array[i][y1]==8||board->array[i][y1]==9)
             {
                 printf("Path is blocked, choose another coordinate to move to\n");
                 return 1;
@@ -45,7 +45,7 @@ int ValidateMove(int m, int n, int board[m][n],int x, int y,int x1,int y1)
     {
         for(int i = y+1; i <= y1;i++)
         {
-            if(board[x1][i]==0||board[x1][i]==8||board[x1][i]==9)
+            if(board->array[x1][i]==0||board->array[x1][i]==8||board->array[x1][i]==9)
             {
                 printf("Path is blocked, choose another coordinate to move to\n");
                 return 1;
@@ -58,7 +58,7 @@ int ValidateMove(int m, int n, int board[m][n],int x, int y,int x1,int y1)
     {
         for(int i = y-1; i >= y1;i--)
         {
-            if(board[x1][i]==0||board[x1][i]==8||board[x1][i]==9)
+            if(board->array[x1][i]==0||board->array[x1][i]==8||board->array[x1][i]==9)
             {
                 printf("Path is blocked, choose another coordinate to move to\n");
                 return 1;
@@ -68,34 +68,34 @@ int ValidateMove(int m, int n, int board[m][n],int x, int y,int x1,int y1)
     }
 }
 
-void CollectPoints(int m,int n,int board[m][n],int *x1,int *y1, int *point)
+void CollectPoints(Board* board,int *x1,int *y1, int *point)
 {
     int newX = *x1;
     int newY = *y1;
-    *point+=board[newX][newY];
+    *point+=board->array[newX][newY];
 }
 
-int CheckSurrounding(int i, int j, int m, int n, int board[m][n])
+int CheckSurrounding(int i, int j, Board* board)
 {
     // Check if the penguin can move to any of the four adjacent cells
-    if (i + 1 < m && (board[i + 1][j] == 1 || board[i + 1][j] == 2 || board[i + 1][j] == 3)) return 0; // Down
-    if (i - 1 >= 0 && (board[i - 1][j] == 1 || board[i - 1][j] == 2 || board[i - 1][j] == 3)) return 0; // Up
-    if (j + 1 < n && (board[i][j + 1] == 1 || board[i][j + 1] == 2 || board[i][j + 1] == 3)) return 0; // Right
-    if (j - 1 >= 0 && (board[i][j - 1] == 1 || board[i][j - 1] == 2 || board[i][j - 1] == 3)) return 0; // Left
+    if (i + 1 < board->rows && (board->array[i + 1][j] == 1 || board->array[i + 1][j] == 2 || board->array[i + 1][j] == 3)) return 0; // Down
+    if (i - 1 >= 0 && (board->array[i - 1][j] == 1 || board->array[i - 1][j] == 2 || board->array[i - 1][j] == 3)) return 0; // Up
+    if (j + 1 < board->columns && (board->array[i][j + 1] == 1 || board->array[i][j + 1] == 2 || board->array[i][j + 1] == 3)) return 0; // Right
+    if (j - 1 >= 0 && (board->array[i][j - 1] == 1 || board->array[i][j - 1] == 2 || board->array[i][j - 1] == 3)) return 0; // Left
     return 1;
 }
 
 
-int CheckStuck(int m, int n,int board[m][n],int sign, int penguins)
+int CheckStuck(Board* board,int sign)
 {
     int totalCounter = 0;
-    for(int i = 0; i< m; i++)
+    for(int i = 0; i< board->rows; i++)
     {
-        for(int j  = 0; j< n; j++)
+        for(int j  = 0; j< board->columns; j++)
         {
-            if(board[i][j] == sign)
+            if(board->array[i][j] == sign)
             {
-                if(CheckSurrounding(i,j,m,n,board)==0)
+                if(CheckSurrounding(i,j,board)==0)
                 {
                     continue;
                 }
@@ -107,7 +107,7 @@ int CheckStuck(int m, int n,int board[m][n],int sign, int penguins)
         }
     }
 
-    if(totalCounter == penguins)
+    if(totalCounter == board->penguins_per_player)
     {
         sign==8?printf("Player one can not move.\n"):printf("Player two can not move.\n");
         return 1;
