@@ -2,13 +2,15 @@
 #define PLACEMENT_H
 
 #include "structs.h"
-void GenerateBoard(Board* board);/*
+void GenerateBoard(Board* board, int numPlayer);/*
     Board* board; pointer to the structure board(containing rows,columns,pointer to 2D matrix, penguins_per_player)
+    int numPlayer; number of players
     Function generates the board, within itself it invokes some other functions, which ask user for input
     and validate it
 */
-void FillBoard(Board* board);/*
+void FillBoard(Board* board, int numPlayer);/*
     Board* board; pointer to the structure board(containing rows,columns,pointer to 2D matrix, penguins_per_player)
+    int numPlayer; number of players
     Function fills the board with pseudo random values, the function also handles an edge case
 */
 int GenerateTile();/*
