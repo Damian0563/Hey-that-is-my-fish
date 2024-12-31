@@ -20,13 +20,6 @@ int ValidateMove(Board* board,int x, int y,int x1,int y1);/*
     int y1; new(selected) coodinate y of the penguin
     Function checks whether the move is possible or not-if it is the function returns 1 and 0 otherwise
 */
-void CollectPoints(Board* board,int *x1,int *y1, int *point);/*
-    Board* board; pointer to the structure board(containing rows,columns,pointer to 2D matrix, penguins_per_player)
-    int *x1; pointer to the x coordinate of the penguin after the move
-    int *y1; pointer to the y coordinate of the penguin after the move
-    int *point; pointer to the amount of points of a respective player
-    Function awards point(s) to the player which just made a move
-*/
 int CheckSurrounding(int i, int j, Board* board);/*
     int i; coordinate x, which is a coordinate of the penguin
     int j; coordinate y, which is a coordinate of the penguin
