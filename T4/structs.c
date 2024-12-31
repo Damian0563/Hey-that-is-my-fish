@@ -6,3 +6,7 @@ typedef struct Board{
     int **array;
     int penguins_per_player;
 }Board;
+
+typedef struct Player{
+    int score;
+}Player;
