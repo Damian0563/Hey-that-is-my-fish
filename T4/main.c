@@ -6,31 +6,35 @@
 #include "utils.h"
 #include "structs.h"
 
+
 int main()
 {   
+    int numPlayer=0;
+    numPlayer = askForPlayers(numPlayer);
+    Player players[numPlayer];
+    // Initialize players
+    initializePlayers(numPlayer, players);
     Board board;
     srand(time(NULL));
     int stuck=0;
-    GenerateBoard(&board);
-    int cur_player=1,total=board.penguins_per_player*2;
-    FillBoard(&board);
-    int points2;
-    int points1=points2=board.penguins_per_player;
+    GenerateBoard(&board, numPlayer);
+    int curPlayerIndex=0,total=board.penguins_per_player*numPlayer;
+    FillBoard(&board, numPlayer);
     printf("\nGenerated board: \n");
     ShowBoard(&board);
     
     printf("\nPlacement phase commences\n\n");
     do{
         int x,y;
-        int sign=cur_player==1?8:9;
-        printf("\nPlayer %s place your penguin\n",cur_player==1?"one":"two");
+        int sign=curPlayerIndex+6;
+        printf("\nPlayer %d place your penguin\n",curPlayerIndex +1);
         do
         {
             AskForCoordinates(&x,&y);
         }while(ValidateCoordinates(&board,x,y)==1);
         PlacePenguin(&board,x,y,sign);
         ShowBoard(&board);
-        cur_player=cur_player==1?2:1;
+        curPlayerIndex=(curPlayerIndex+1)%numPlayer;
         total-=1;
     }while(total>0); 
 
@@ -39,11 +43,10 @@ int main()
     do 
     {
         int x,y,x1,y1;
-        int sign=cur_player==1?8:9;
-        int *point=cur_player==1?&points1:&points2;
+        int sign=curPlayerIndex+6;
         if(CheckStuck(&board,sign)==1)
         {
-            cur_player=cur_player==1?2:1;
+            curPlayerIndex=(curPlayerIndex+1)%numPlayer;
             stuck++;
         }
         else
@@ -53,30 +56,19 @@ int main()
                 AskForCoordinatesOfPenguin(&x,&y,sign,&board);
                 AskForCoordinatesMovement(&x,&y,&x1,&y1,sign,&board);
             }while(ValidateMove(&board,x,y,x1,y1)==1);
-            CollectPoints(&board,&x1,&y1,point);
-            //printf("Points1: %d, Points2: %d",points1,points2); printing intermediate scores?
+            players[curPlayerIndex].score += board.array[x1][y1];
             MovePenguin(&board,&x,&y,&x1,&y1,sign);
             ShowBoard(&board);
-            cur_player=cur_player==1?2:1;
+            printScores(players, numPlayer);
+            curPlayerIndex=(curPlayerIndex+1)%numPlayer;
             stuck=0;
         }
-    }while(stuck<2);
-    printf("Neither player can move. Game Ending...");
+    }while(stuck<numPlayer);
+    printf("No player can move. Game Ending...\n");
     //Summarization
-    printf("\nSummarization phase\n");
-    printf("Player 1: %d, Player 2: %d",points1,points2);
-    if (points1>points2)
-    {
-        printf("\nPlayer one wins\n");
-    }
-    else if(points2>points1)
-    {
-        printf("\nPlayer two wins\n");
-    }
-    else
-    {
-        printf("\nGame ended in a draw\n");
-    }
+    printf("Summarization\n");
+    printScores(players, numPlayer);
+    summerization(players, numPlayer);
     FreeBoard(&board);
     return 0;
 }
