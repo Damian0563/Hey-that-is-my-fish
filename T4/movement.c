@@ -13,16 +13,14 @@ void MovePenguin(Board* board,int *x, int *y, int *x1, int *y1, int sign)
     board->array[oldX][oldY] = 0;
 }
 
-int ValidateMove(Board* board, int x, int y, int x1, int y1) {
-    // Check if the destination coordinates are the same as the source coordinates
-    if (x == x1 && y == y1) {
-        printf("Penguin unselected. Choose a new penguin or move to a different position.\n");
-        return 2; // Return a specific code to indicate unselecting the penguin
-    }
-
-    if (x1 > x) {
-        for (int i = x + 1; i <= x1; i++) {
-            if (board->array[i][y1] == 0 || board->array[i][y1] == 8 || board->array[i][y1] == 9) {
+int ValidateMove(Board* board,int x, int y,int x1,int y1)
+{
+    if(x1>x)
+    {
+        for(int i = x+1; i <= x1;i++)
+        {
+            if(board->array[i][y1]==0||board->array[i][y1]==8||board->array[i][y1]==9)
+            {
                 printf("Path is blocked, choose another coordinate to move to\n");
                 return 1;
             }
@@ -30,9 +28,12 @@ int ValidateMove(Board* board, int x, int y, int x1, int y1) {
         return 0;
     }
 
-    if (x1 < x) {
-        for (int i = x - 1; i >= x1; i--) {
-            if (board->array[i][y1] == 0 || board->array[i][y1] == 8 || board->array[i][y1] == 9) {
+    if(x1<x)
+    {
+        for(int i = x-1; i >= x1;i--)
+        {
+            if(board->array[i][y1]==0||board->array[i][y1]==8||board->array[i][y1]==9)
+            {
                 printf("Path is blocked, choose another coordinate to move to\n");
                 return 1;
             }
@@ -40,9 +41,12 @@ int ValidateMove(Board* board, int x, int y, int x1, int y1) {
         return 0;
     }
 
-    if (y1 > y) {
-        for (int i = y + 1; i <= y1; i++) {
-            if (board->array[x1][i] == 0 || board->array[x1][i] == 8 || board->array[x1][i] == 9) {
+    if(y1>y)
+    {
+        for(int i = y+1; i <= y1;i++)
+        {
+            if(board->array[x1][i]==0||board->array[x1][i]==8||board->array[x1][i]==9)
+            {
                 printf("Path is blocked, choose another coordinate to move to\n");
                 return 1;
             }
@@ -50,9 +54,12 @@ int ValidateMove(Board* board, int x, int y, int x1, int y1) {
         return 0;
     }
 
-    if (y1 < y) {
-        for (int i = y - 1; i >= y1; i--) {
-            if (board->array[x1][i] == 0 || board->array[x1][i] == 8 || board->array[x1][i] == 9) {
+    if(y1<y)
+    {
+        for(int i = y-1; i >= y1;i--)
+        {
+            if(board->array[x1][i]==0||board->array[x1][i]==8||board->array[x1][i]==9)
+            {
                 printf("Path is blocked, choose another coordinate to move to\n");
                 return 1;
             }
@@ -60,7 +67,6 @@ int ValidateMove(Board* board, int x, int y, int x1, int y1) {
         return 0;
     }
 }
-
 
 int CheckSurrounding(int i, int j, Board* board)
 {
