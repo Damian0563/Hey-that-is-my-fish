@@ -3,35 +3,51 @@
 
 #include "structs.h"
 
-void MovePenguin(Board* board,int *x, int *y, int *x1, int *y1, int sign);/*
-    Board* board; pointer to the structure board(containing rows,columns,pointer to 2D matrix, penguins_per_player)
-    int *x; pointer to the x coordinate of current location of the penguin
-    int *y; pointer to the y coordinate of current location of the penguin
-    int *x1; pointer to the new x coordinate of the penguin
-    int *y1; pointer t the new y coordinate of the penguin
-    int sign; symbol denoting player's penguin(either 8 or 9)
-    Function places the penguin on a given tile after appropriate validations
-*/
-int ValidateMove(Board* board,int x, int y,int x1,int y1);/*
-    Board* board; pointer to the structure board(containing rows,columns,pointer to 2D matrix, penguins_per_player)
-    int x; the x coordinate of current location of selected penguin
-    int y; the y coordinate of current location of selected penguin
-    int x1; new(selected) coordinate x of the penguin
-    int y1; new(selected) coodinate y of the penguin
-    Function checks whether the move is possible or not-if it is the function returns 1 and 0 otherwise
-*/
-int CheckSurrounding(int i, int j, Board* board);/*
-    int i; coordinate x, which is a coordinate of the penguin
-    int j; coordinate y, which is a coordinate of the penguin
-    Board* board; pointer to the structure board(containing rows,columns,pointer to 2D matrix, penguins_per_player)
-    Function checks whether a penguin of a player can move- if it can move the function returns 0 and 1 otherwise
-*/
-int CheckStuck(Board* board,int sign);/*
-    Board* board; pointer to the structure board(containing rows,columns,pointer to 2D matrix, penguins_per_player)
-    int sign; symbol denoting player's penguin(either 8 or 9)
-    int penguins; amount of penguins EACH player has
-    Function checks whether a given player can move, or not- if the player can move the functions 
-    returns 0 and 1 otherwise
-*/
+/**
+ * @brief Moves a penguin to a new tile on the board after performing validations.
+ * 
+ * This function validates the move and places the penguin at the specified new location.
+ * @param board Pointer to the Board structure representing the game board.
+ * @param x Pointer to the x-coordinate of the penguin's current location.
+ * @param y Pointer to the y-coordinate of the penguin's current location.
+ * @param x1 Pointer to the x-coordinate of the penguin's new location.
+ * @param y1 Pointer to the y-coordinate of the penguin's new location.
+ * @param sign An integer symbol denoting the player's penguin (e.g., 8 or 9).
+ */
+void MovePenguin(Board* board,int *x, int *y, int *x1, int *y1, int sign);
+    
+/**
+ * @brief Moves a penguin to a new tile on the board after performing validations.
+ * 
+ * This function validates the move and places the penguin at the specified new location.
+ * @param board Pointer to the Board structure representing the game board.
+ * @param x Pointer to the x-coordinate of the penguin's current location.
+ * @param y Pointer to the y-coordinate of the penguin's current location.
+ * @param x1 Pointer to the x-coordinate of the penguin's new location.
+ * @param y1 Pointer to the y-coordinate of the penguin's new location.
+ * @param sign An integer symbol denoting the player's penguin (e.g., 8 or 9).
+ */
+int ValidateMove(Board* board,int x, int y,int x1,int y1);
+
+/**
+ * @brief Checks if a penguin can make a valid move from its current location.
+ * 
+ * This function verifies the surrounding tiles of the penguin to determine if a move is possible.
+ * @param i The x-coordinate of the penguin's current location.
+ * @param j The y-coordinate of the penguin's current location.
+ * @param board Pointer to the Board structure representing the game board.
+ * @return 0 if the penguin can move; 1 if it is stuck.
+ */
+int CheckSurrounding(int i, int j, Board* board);
+
+/**
+ * @brief Checks if a player is completely stuck and unable to move any penguin.
+ * 
+ * This function iterates through the player's penguins to determine if all are immobile.
+ * @param board Pointer to the Board structure representing the game board.
+ * @param sign An integer symbol denoting the player's penguin (e.g., 8 or 9).
+ * @return 0 if the player can make a move; 1 if all penguins are stuck.
+ */
+int CheckStuck(Board* board,int sign);
 
 #endif
