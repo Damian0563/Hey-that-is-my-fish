@@ -55,7 +55,7 @@ int main()
             {
                 AskForCoordinatesOfPenguin(&x,&y,sign,&board);
                 AskForCoordinatesMovement(&x,&y,&x1,&y1,sign,&board);
-            }while(ValidateMove(&board,x,y,x1,y1)==1);
+            }while(ValidateMove(&board,x,y,x1,y1)==1 || ValidateMove(&board, x, y, x1, y1)==2);
             players[curPlayerIndex].score += board.array[x1][y1];
             MovePenguin(&board,&x,&y,&x1,&y1,sign);
             ShowBoard(&board);
