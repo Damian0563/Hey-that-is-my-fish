@@ -1,15 +1,26 @@
-#ifndef structs_h
-#define structs_h
+#ifndef STRUCTS_H
+#define STRUCTS_H
 
+/**
+ * @brief Structure representing the game board.
+ * 
+ * This structure contains all the necessary information 
+ * required for board operations and validations.
+ */
+typedef struct Board {
+    int columns; /**< The number of columns on the board. */
+    int rows;    /**< The number of rows on the board. */
+    int **array; /**< Pointer to a dynamically allocated 2D matrix representing the board. */
+    int penguins_per_player; /**< The number of penguins allocated to each player. */
+} Board;
 
-    typedef struct Board{
-        int columns;    //amount of columns of the board
-        int rows;       //amount of rows of the board
-        int **array;    //pointer to 2D matrix
-        int penguins_per_player;//amount of penguins each player has
-    }Board; //Structure containing neccessary information for board operations and validations
+/**
+ * @brief Structure representing a player in the game.
+ * 
+ * This structure contains information about the player's score.
+ */
+typedef struct Player {
+    int score; /**< The total score of the player. */
+} Player;
 
-    typedef struct Player{
-        int score;      //amount of points a player has
-    }Player; //Structure containing neccessary information for player operations and validations
-#endif
+#endif /* STRUCTS_H */
