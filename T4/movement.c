@@ -15,11 +15,17 @@ void MovePenguin(Board* board,int *x, int *y, int *x1, int *y1, int sign)
 
 int ValidateMove(Board* board,int x, int y,int x1,int y1)
 {
+    if(x==x1 && y==y1)
+    {
+        printf("Penguin unselected, choose another penguin");
+        return 1;
+    }
+    
     if(x1>x)
     {
         for(int i = x+1; i <= x1;i++)
         {
-            if(board->array[i][y1]==0||board->array[i][y1]==8||board->array[i][y1]==9)
+            if(board->array[i][y1]==0||board->array[i][y1]==6||board->array[i][y1]==7||board->array[i][y1]==8||board->array[i][y1]==9)
             {
                 printf("Path is blocked, choose another coordinate to move to\n");
                 return 1;
@@ -32,7 +38,7 @@ int ValidateMove(Board* board,int x, int y,int x1,int y1)
     {
         for(int i = x-1; i >= x1;i--)
         {
-            if(board->array[i][y1]==0||board->array[i][y1]==8||board->array[i][y1]==9)
+            if(board->array[i][y1]==0||board->array[i][y1]==6||board->array[i][y1]==7||board->array[i][y1]==8||board->array[i][y1]==9)
             {
                 printf("Path is blocked, choose another coordinate to move to\n");
                 return 1;
@@ -45,7 +51,7 @@ int ValidateMove(Board* board,int x, int y,int x1,int y1)
     {
         for(int i = y+1; i <= y1;i++)
         {
-            if(board->array[x1][i]==0||board->array[x1][i]==8||board->array[x1][i]==9)
+            if(board->array[x1][i]==0||board->array[i][y1]==6||board->array[i][y1]==7||board->array[x1][i]==8||board->array[x1][i]==9)
             {
                 printf("Path is blocked, choose another coordinate to move to\n");
                 return 1;
@@ -58,7 +64,7 @@ int ValidateMove(Board* board,int x, int y,int x1,int y1)
     {
         for(int i = y-1; i >= y1;i--)
         {
-            if(board->array[x1][i]==0||board->array[x1][i]==8||board->array[x1][i]==9)
+            if(board->array[x1][i]==0||board->array[i][y1]==6||board->array[i][y1]==7||board->array[x1][i]==8||board->array[x1][i]==9)
             {
                 printf("Path is blocked, choose another coordinate to move to\n");
                 return 1;
