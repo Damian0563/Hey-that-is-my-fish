@@ -2,26 +2,42 @@
 #define PLACEMENT_H
 
 #include "structs.h"
-void GenerateBoard(Board* board, int numPlayer);/*
-    Board* board; pointer to the structure board(containing rows,columns,pointer to 2D matrix, penguins_per_player)
-    int numPlayer; number of players
-    Function generates the board, within itself it invokes some other functions, which ask user for input
-    and validate it
-*/
-void FillBoard(Board* board, int numPlayer);/*
-    Board* board; pointer to the structure board(containing rows,columns,pointer to 2D matrix, penguins_per_player)
-    int numPlayer; number of players
-    Function fills the board with pseudo random values, the function also handles an edge case
-*/
-int GenerateTile();/*
-    Function generates a tile in range<0-3>
-*/
-void PlacePenguin(Board* board,int x, int y, int sign);/*
-    Board* board; pointer to the structure board(containing rows,columns,pointer to 2D matrix, penguins_per_player)
-    int x; selected coordinate x on the board
-    int y; selected coordinate y on the board
-    int sign; symbol denoting player's penguin(either 8 or 9)
-    Function places a penguin on selected tile on the board prior to neccessary validations
-*/ 
+
+/**
+ * @brief Generates the game board and initializes it based on user input.
+ * 
+ * This function invokes other functions to ask the user for input and validate it.
+ * @param board Pointer to the Board structure to initialize.
+ * @param numPlayer The number of players participating in the game.
+ */
+void GenerateBoard(Board* board, int numPlayer);
+    
+/**
+ * @brief Fills the board with pseudo-random values.
+ * 
+ * This function handles edge cases to ensure proper board initialization.
+ * @param board Pointer to the Board structure representing the game board.
+ * @param numPlayer The number of players participating in the game.
+ */
+void FillBoard(Board* board, int numPlayer);
+
+/**
+ * @brief Generates a random tile value in the range [0, 3].
+ * 
+ * This function is used to populate the board with appropriate values.
+ * @return An integer representing the generated tile value.
+ */    
+int GenerateTile();
+
+/**
+ * @brief Places a penguin on the selected tile of the board.
+ * 
+ * This function ensures necessary validations are performed before placing the penguin.
+ * @param board Pointer to the Board structure representing the game board.
+ * @param x The x-coordinate of the tile on the board.
+ * @param y The y-coordinate of the tile on the board.
+ * @param sign An integer symbol denoting the player's penguin (e.g., 8 or 9).
+ */    
+void PlacePenguin(Board* board,int x, int y, int sign);
 
 #endif
