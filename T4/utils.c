@@ -22,7 +22,7 @@ int askForPlayers(int numPlayer)
 {
     do
     {
-        printf("Enter the number of players from 2 to 4 \n");
+        printf("Enter the number of players from 2 to 4: ");
         scanf("%d", &numPlayer);
     } while (numPlayer < 2 || numPlayer > 4);
     return numPlayer;
@@ -197,17 +197,18 @@ void ShowBoard(Board* board)
     {
         printf("%2d |", i); // Print row headers
         for (int j = 0; j < board->columns; j++) {
-            if (board->array[i][j]==6){
-                printf("\033[1;31m%4s\033[0m", "P1");
-            }else if(board->array[i][j]==7){
-                printf("\033[1;34m%4s\033[0m", "P2");
-            }else if(board->array[i][j]==8){
-                printf("\033[1;33m%4s\033[0m", "P3");
-            }else if(board->array[i][j]==9){
-                printf("\033[1;32m%4s\033[0m", "P4");
-            }else{
-                printf("%4d",board->array[i][j]);
+            if (board->array[i][j] == 6) {
+                printf("\033[1;31m%4c\033[0m", 'A'); // Red 'A'
+            } else if (board->array[i][j] == 7) {
+                printf("\033[1;34m%4c\033[0m", 'B'); // Blue 'B'
+            } else if (board->array[i][j] == 8) {
+                printf("\033[1;33m%4c\033[0m", 'C'); // Yellow 'C'
+            } else if (board->array[i][j] == 9) {
+                printf("\033[1;32m%4c\033[0m", 'D'); // Green 'D'
+            } else {
+                printf("%4d", board->array[i][j]); // Default case for other numbers
             }
+
         }
         printf("\n");
     }
