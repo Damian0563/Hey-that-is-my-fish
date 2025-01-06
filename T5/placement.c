@@ -1,0 +1,88 @@
+#include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
+#include "placement.h"
+#include "utils.h"
+#include "structs.h"
+
+
+
+void GenerateBoard(Board *board, int numPlayer)
+{
+    int ans;
+    do
+    {
+        printf("Would you like to generate a board manually or artificially: 1[manually] or 2[artificially]: ");
+        scanf("%d", &ans);
+    } while (ans != 1 && ans != 2);
+    if (ans == 1)
+    {
+        do
+        {
+            AskForDimensions(board);
+            AskForPenguins(board);
+        } while (ValidateDimensionsAndPenguins(board, numPlayer) == 0);
+    }
+    else
+    {
+        //+1 needed for logic, +3 needed for clarity, readable board, it is a board at least 3x3
+        do
+        {
+            board->rows = (rand() % 10) + 3;
+            board->columns = (rand() % 10) + 3;
+            AskForPenguins(board);
+        } while (ValidateDimensionsAndPenguins(board, numPlayer) == 0);
+    }
+}
+
+void FillBoard(Board *board, int numPlayer)
+{
+    int ones = 0;
+    board->array = (int **)malloc(board->rows * sizeof(int *));
+    if (board->array == NULL)
+    {
+        printf("Memory allocation failed");
+        exit(EXIT_FAILURE);
+    }
+    for (int i = 0; i < board->rows; i++)
+    {
+        board->array[i] = (int *)malloc(board->columns * sizeof(int));
+    }
+
+    for (int i = 0; i < board->rows; i++)
+    {
+        for (int j = 0; j < board->columns; j++)
+        {
+            board->array[i][j] = GenerateTile();
+            if (board->array[i][j] == 1)
+            {
+                ones++;
+            }
+        }
+    }
+    while (ones < board->penguins_per_player * numPlayer)
+    {
+        int gen_i = rand() % board->rows;
+        int gen_j = rand() % board->columns;
+        if (board->array[gen_i][gen_j] != 1)
+        {
+            board->array[gen_i][gen_j] = 1;
+            ones++;
+        }
+    }
+}
+
+int GenerateTile()
+{
+    return rand() % 4;
+}
+
+void PlacePenguin(Board *board, int x, int y, int sign)
+{
+    board->array[x][y] = sign;
+}
+
+void PlaceAutonomously(Board *board, int PenguinsToPlace)
+{
+    
+}
