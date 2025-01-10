@@ -10,11 +10,16 @@
 void GenerateBoard(Board *board, int numPlayer)
 {
     int ans;
-    do
-    {
+    char term;
+    do {
         printf("Would you like to generate a board manually or artificially: 1[manually] or 2[artificially]: ");
-        scanf("%d", &ans);
+        if (scanf("%d%c",&ans,&term) != 2 || term != '\n') {
+            //printf("Enter where would you like to place your penguin (x y): ");
+            while (getchar() != '\n'); // Clear invalid input
+            ans=0; // Reset values
+        }
     } while (ans != 1 && ans != 2);
+    
     if (ans == 1)
     {
         do
