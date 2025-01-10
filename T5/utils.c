@@ -1,86 +1,72 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <ctype.h>
-#include "utils.h"
 #include "structs.h"
+#include "utils.h"
+#include <ctype.h>
 
-void ClearConsole() {
-    // Cross-platform console clearing
-#ifdef _WIN32
-    system("cls");
-#else
-    system("clear");
-#endif
-}
 
-void WaitForEnter() {
-    printf("Press Enter to continue...");
-    while (getchar() != '\n');
-}
-
-int askForPlayers(int numPlayer) 
-{
-    do
-    {
+int askForPlayers(int numPlayer) {
+    char term;
+    do {
         printf("Enter the number of players from 2 to 4: ");
-        scanf("%d", &numPlayer);
+        if (scanf("%d%c", &numPlayer, &term) != 2 || term != '\n') {
+            printf("Enter the number of players from 2 to 4: ");
+            while (getchar() != '\n'); // Clear invalid input
+            numPlayer = 0; // Reset to ensure the loop continues
+        }
     } while (numPlayer < 2 || numPlayer > 4);
     return numPlayer;
 }
 
-void initializePlayers(int numPlayer, Player players[]) 
-{              
-    
-    for (int i = 0; i < numPlayer; i++) 
-    {   
-        players[i].score = 0;
-    }
-}
-
 void AskForDimensions(Board* board) {
-    printf("\nHow many rows should the board have: ");
-    scanf("%d", &(board->rows));
-    printf("How many columns should the board have: ");
-    scanf("%d", &(board->columns));
+    char term;
+    do {
+        printf("\nHow many rows should the board have: ");
+        if (scanf("%d%c", &(board->rows), &term) != 2 || term != '\n' || board->rows <= 0) {
+            printf("\nHow many rows should the board have: ");
+            while (getchar() != '\n'); // Clear invalid input
+            board->rows = 0;
+        }
+    } while (board->rows <= 0);
+
+    do {
+        printf("How many columns should the board have: ");
+        if (scanf("%d%c", &(board->columns), &term) != 2 || term != '\n' || board->columns <= 0) {
+            printf("How many columns should the board have: ");
+            while (getchar() != '\n'); // Clear invalid input
+            board->columns = 0;
+        }
+    } while (board->columns <= 0);
 }
 
 void AskForPenguins(Board* board) {
-    printf("How many penguins each player should have: ");
-    scanf("%d", &(board->penguins_per_player));
-}
-
-int ValidateDimensionsAndPenguins(Board* board, int numPlayer) {
-    if (board->rows > 0 && board->columns > 0 && board->penguins_per_player * numPlayer > board->rows*board->columns) {
-        printf("Invalid parameters\n");
-        return 0;
-    }
-    return 1;
+    char term;
+    do {
+        printf("How many penguins each player should have: ");
+        if (scanf("%d%c", &(board->penguins_per_player), &term) != 2 || term != '\n' || board->penguins_per_player <= 0) {
+            //printf("How many penguins each player should have: ");
+            while (getchar() != '\n'); // Clear invalid input
+            board->penguins_per_player = 0;
+        }
+    } while (board->penguins_per_player <= 0);
 }
 
 void AskForCoordinates(int* x, int* y) {
-    printf("Enter where would you like to place your penguin (x y): ");
-    scanf("%d %d", x, y);
-}
-
-int ValidateCoordinates(Board* board, int x, int y) {
-    if (x < board->rows && x >= 0 && y < board->columns && y >= 0) {
-        if (board->array[x][y] == 1) {
-            return 0;
-        } else {
-            printf("Invalid tile selected\n");
-            return 1;
+    char term;
+    do {
+        printf("Enter where would you like to place your penguin (x y): ");
+        if (scanf("%d %d%c", x, y, &term) != 3 || term != '\n') {
+            //printf("Enter where would you like to place your penguin (x y): ");
+            while (getchar() != '\n'); // Clear invalid input
+            *x = *y = -1; // Reset values
         }
-    }
-    printf("Selected tile is out of bounds\n");
-    return 1;
+    } while (*x < 0 || *y < 0);
 }
 
-void AskForCoordinatesOfPenguin(int *x, int *y, int sign,Board* board)
-{
+void AskForCoordinatesOfPenguin(int *x, int *y, int sign, Board* board) {
     int newX;
     int newY;
-    if(board->penguins_per_player==1)
-    {
+    if(board->penguins_per_player==1){
         for(int i = 0; i< board->rows; i++)
         {
             for(int j = 0; j<board->columns;j++)
@@ -92,50 +78,72 @@ void AskForCoordinatesOfPenguin(int *x, int *y, int sign,Board* board)
                 }
             }
         } 
+
     }
     else
     {
-        do
-        {
-            printf("Where is the penguin you want to move? (x y):\n");
-            scanf("%d %d",x,y);
-            newX=*x;
-            newY=*y;
-            if(board->array[newX][newY] != sign)
-            {
-                printf("That is not your penguin, yours is denoted by: %d\n", sign);
+        char term;
+        int valid = 0;
+        do {
+            printf("Where is the penguin you want to move? (x y): ");
+            if (scanf("%d %d%c", x, y, &term) != 3 || term != '\n') {
+                //printf("Where is the penguin you want to move? (x y):\n");
+                while (getchar() != '\n'); // Clear invalid input
+                continue;
             }
-        } while (board->array[newX][newY] != sign);
+            if (board->array[*x][*y] == sign) {
+                valid = 1;
+            }else {
+                char letter;
+                if(sign==6){
+                    letter='A';
+                }else if(sign==7){
+                    letter='B';
+                }else if(sign==8){
+                    letter='C';
+                }else if(sign==9){
+                    letter='D';
+                }else{
+                    printf("Internal program error");
+                }
+                printf("That is not your penguin, yours is denoted by: %c\n", letter);
+            }
+        } while (!valid);
     }
 }
 
-void AskForCoordinatesMovement(int *x, int *y, int *x1,int *y1, int sign,Board* board)
-{
-    int newX;
-    int newY;
-    int oldX=*x;
-    int oldY=*y;
-    do
-    {
-        printf("Where do you want to move your penguin? (x y):\n");
-        scanf("%d %d",x1,y1);
-        do
-        {
-            newX=*x1;
-            newY=*y1;
-            if(newX<0 || newX>=board->rows || newY<0 || newY>=board->columns)
-            {
-                printf("Your inputs are out of bounds\n");
-                printf("Where do you want to move your penguin? (x y):\n");
-                scanf("%d %d",x1,y1);
-            }
-        } while (newX<0 || newX>=board->rows || newY<0 || newY>=board->columns);
-        
-        if(newX!=oldX && newY!=oldY)
-        {
-            printf("You can only move either on the same row or column inside bounds\n");
+void AskForCoordinatesMovement(int *x, int *y, int *x1, int *y1, int sign, Board* board) {
+    char term;
+    int valid = 0;
+    do {
+        printf("Where do you want to move your penguin? (x y): ");
+        if (scanf("%d %d%c", x1, y1, &term) != 3 || term != '\n') {
+            //printf("Where do you want to move your penguin? (x y):");
+            while (getchar() != '\n'); // Clear invalid input
+            continue;
         }
-    } while (newX!=oldX && newY!=oldY);
+        if ((*x1 == *x || *y1 == *y) && *x1 >= 0 && *x1 < board->rows && *y1 >= 0 && *y1 < board->columns) {
+            valid = 1;
+        } else {
+            printf("You can only move either on the same row or column inside bounds");
+        }
+    } while (!valid);
+}
+
+void initializePlayers(int numPlayer, Player players[]) 
+{                  
+    for (int i = 0; i < numPlayer; i++) 
+    {   
+        players[i].score = 0;
+    }
+}
+
+int ValidateDimensionsAndPenguins(Board* board, int numPlayer) {
+    if (board->rows > 0 && board->columns > 0 && board->penguins_per_player * numPlayer > board->rows*board->columns) {
+        printf("Invalid parameters\n");
+        return 0;
+    }
+    return 1;
 }
 
 void printScores(Player players[], int numPlayer) 
@@ -224,3 +232,18 @@ void FreeBoard(Board *board) {
     board->columns=0;
     board->penguins_per_player=0;
 }
+
+int ValidateCoordinates(Board* board, int x, int y) {
+    if (x < board->rows && x >= 0 && y < board->columns && y >= 0) {
+        if (board->array[x][y] == 1) {
+            return 0;
+        } else {
+            printf("Invalid tile selected\n");
+            return 1;
+        }
+    }
+    printf("Selected tile is out of bounds\n");
+    return 1;
+}
+
+
