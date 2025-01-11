@@ -109,4 +109,34 @@ void ShowBoard(Board* board);
  */
 void FreeBoard(Board* board);
 
+/**
+ * @brief Retrieves the ID of a player based on their name.
+ * 
+ * @param players Array of AutonomousPlayer objects.
+ * @param name The name of the player whose ID is to be retrieved.
+ * @param num_players The number of players in the array.
+ * @return int The ID of the player if found, otherwise -1.
+ */
+int GetMyId(AutonomousPlayer players[],char* name, int num_players);
+
+
+/**
+ * @brief Checks the presence of a player in the list of autonomous players.
+ * 
+ * @param players Array of AutonomousPlayer objects.
+ * @param name Name of the player to check for presence.
+ * @param num_players Number of players in the array.
+ * @return int Returns 1 if the player is present, 0 otherwise.
+ */
+int CheckPresence(AutonomousPlayer players[],char* name,int num_players);
+
+/**
+ * @brief Increments the score of a specified player.
+ * 
+ * @param players Array of AutonomousPlayer objects.
+ * @param num_players Number of players in the array.
+ * @param id The ID of the player whose score is to be incremented.
+ * @param points The number of points to add to the player's score.
+ */
+void IncrementScore(AutonomousPlayer players[],int num_players,int id,int points);
 #endif

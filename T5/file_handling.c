@@ -169,3 +169,34 @@ int interpretValueWrite(int value)
         return abs(value);
     }
 }
+
+int CheckInputValidity(Board* board)
+{
+    return 1;
+}
+
+void AppendMyPlayer(char* OutputFileName,char* name, int my_id)
+{
+    FILE *pf=fopen(OutputFileName,"a");
+    fprintf(pf,"\n");
+    fprintf(pf,"%s %d 1",name,my_id);
+    fclose(pf);
+}
+
+int AssignId(AutonomousPlayer players[],int num_players)
+{
+    for(int i=1;i<10;i++)
+    {
+        int flag=1;
+        for(int j=0;j<num_players;j++)
+        {
+            if(players[j].id==i)
+            {
+                flag=0;
+            }
+        }
+        if(flag){
+            return i;
+        }
+    }
+}

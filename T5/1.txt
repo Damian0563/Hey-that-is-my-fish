@@ -1,8 +1,0 @@
-3 3
-04 00 01 
-10 20 30 
-10 02 03 
-DreamTeam 1 1
-FatCrown 2 1
-ChillGuys 3 1
-CDEnjoyer 4 1

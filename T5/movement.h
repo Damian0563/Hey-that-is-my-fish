@@ -50,7 +50,21 @@ int CheckSurrounding(int i, int j, Board* board);
  */
 int CheckStuck(Board* board,int sign);
 
-
+/**
+ * @brief Moves the penguin autonomously using logic.
+ * 
+ * This function iterates through the 2D array to find the best move in the current game state.
+ * @param board Pointer to the Board structure representing the game board with interpreted values from input file.
+ */
 void MoveAutonomously(Board* board);
+
+/**
+ * @brief Checks if our program can make a move.
+ * 
+ * This function iterates through the Board structure to check whether penguins of our program are moveable.
+ * @param board Pointer to the Board structure representing the game board with interpreted values from input file.
+ * @return 0 if can not make a move; 1 otherwise
+ */
+int CanMove(Board* board);
 
 #endif

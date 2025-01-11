@@ -4,6 +4,8 @@
 #include "placement.h"
 #include "utils.h"
 #include "structs.h"
+#include <string.h>
+
 
 
 
@@ -87,7 +89,45 @@ void PlacePenguin(Board *board, int x, int y, int sign)
     board->array[x][y] = sign;
 }
 
-void PlaceAutonomously(Board *board, int PenguinsToPlace)
+void PlaceAutonomously(AutonomousPlayer players[],Board *board,int my_id,int num_players)
 {
-    
+    int best_i,best_j; //searching for tiles with high potential(not on the borders of the board)
+    int best_score=0;
+    for(int i=0;i<board->rows;i++)
+    {
+        for(int j=0;j<board->columns;j++)
+        {   
+            if(board->array[i][j] == 1)
+            {
+                int score=-1;
+                if(i+1<board->rows && board->array[i+1][j]>0) score*=board->array[i+1][j];
+                if(i-1>=0 && board->array[i-1][j]>0) score*=board->array[i-1][j];
+                if(j+1<board->columns && board->array[i][j+1]) score*=board->array[i][j+1];
+                if(j-1>=0 && board->array[i][j-1]) score*=board->array[i][j-1];
+                if(score>best_score)
+                {
+                    best_score=score;
+                    best_i=i;
+                    best_j=j;
+                }
+            }
+        }
+    }
+    IncrementScore(players,num_players,my_id,board->array[best_i][best_j]);
+    board->array[best_i][best_j]=(my_id*-1);
+}
+
+
+int CheckPenguinsToPlace(Board *board,int my_id,int PenguinsToPlace){
+    my_id*=-1;
+    int counter=0;
+    for(int i=0;i<board->rows;i++)
+    {
+        for(int j=0;j<board->columns;j++)
+        {
+            if(board->array[i][j]==my_id) counter++;
+        }
+    }
+    if (counter==PenguinsToPlace) return 0;
+    return 1;
 }

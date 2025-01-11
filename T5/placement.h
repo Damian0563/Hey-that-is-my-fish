@@ -40,7 +40,24 @@ int GenerateTile();
  */    
 void PlacePenguin(Board* board,int x, int y, int sign);
 
+/**
+ * @brief Places a penguin autonomously on the board using logic.
+ * 
+ * This function places a penguin on the board autonomously.
+ * @param board Pointer to the Board structure representing the game board.
+ * @param my_id Integer value representing the id of the program.
+ * @param num_players Integer value representing the number of players in the game.
+ */ 
+void PlaceAutonomously(AutonomousPlayer players[],Board* board,int my_id,int num_players);
 
-void PlaceAutonomously(Board* board, int PenguinsToPlace);
+/**
+ * @brief Checks whether the program can place a penguin, taking into account the upper limit of penguin.
+ * 
+ * This function places a penguin on the board autonomously.
+ * @param board Pointer to the Board structure representing the game board.
+ * @param my_id Integer value representing the id of the program.
+ * @param PenguinsToPlace Integer value storing information about number of penguins per player.
+ */ 
+int CheckPenguinsToPlace(Board* board,int my_id,int PenguinsToPlace);
 
 #endif

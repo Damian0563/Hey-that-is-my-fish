@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "structs.h"
+#include "string.h"
 #include "utils.h"
 #include <ctype.h>
 
@@ -10,7 +11,6 @@ int askForPlayers(int numPlayer) {
     do {
         printf("Enter the number of players from 2 to 4: ");
         if (scanf("%d%c", &numPlayer, &term) != 2 || term != '\n') {
-            printf("Enter the number of players from 2 to 4: ");
             while (getchar() != '\n'); // Clear invalid input
             numPlayer = 0; // Reset to ensure the loop continues
         }
@@ -21,9 +21,8 @@ int askForPlayers(int numPlayer) {
 void AskForDimensions(Board* board) {
     char term;
     do {
-        printf("\nHow many rows should the board have: ");
+        printf("How many rows should the board have: ");
         if (scanf("%d%c", &(board->rows), &term) != 2 || term != '\n' || board->rows <= 0) {
-            printf("\nHow many rows should the board have: ");
             while (getchar() != '\n'); // Clear invalid input
             board->rows = 0;
         }
@@ -32,7 +31,6 @@ void AskForDimensions(Board* board) {
     do {
         printf("How many columns should the board have: ");
         if (scanf("%d%c", &(board->columns), &term) != 2 || term != '\n' || board->columns <= 0) {
-            printf("How many columns should the board have: ");
             while (getchar() != '\n'); // Clear invalid input
             board->columns = 0;
         }
@@ -44,7 +42,6 @@ void AskForPenguins(Board* board) {
     do {
         printf("How many penguins each player should have: ");
         if (scanf("%d%c", &(board->penguins_per_player), &term) != 2 || term != '\n' || board->penguins_per_player <= 0) {
-            //printf("How many penguins each player should have: ");
             while (getchar() != '\n'); // Clear invalid input
             board->penguins_per_player = 0;
         }
@@ -56,7 +53,6 @@ void AskForCoordinates(int* x, int* y) {
     do {
         printf("Enter where would you like to place your penguin (x y): ");
         if (scanf("%d %d%c", x, y, &term) != 3 || term != '\n') {
-            //printf("Enter where would you like to place your penguin (x y): ");
             while (getchar() != '\n'); // Clear invalid input
             *x = *y = -1; // Reset values
         }
@@ -87,7 +83,6 @@ void AskForCoordinatesOfPenguin(int *x, int *y, int sign, Board* board) {
         do {
             printf("Where is the penguin you want to move? (x y): ");
             if (scanf("%d %d%c", x, y, &term) != 3 || term != '\n') {
-                //printf("Where is the penguin you want to move? (x y):\n");
                 while (getchar() != '\n'); // Clear invalid input
                 continue;
             }
@@ -246,4 +241,32 @@ int ValidateCoordinates(Board* board, int x, int y) {
     return 1;
 }
 
+int GetMyId(AutonomousPlayer players[],char* name,int num_players){
+    for(int i=0;i<num_players;i++)
+    {
+        if (strcmp(players[i].name,name)==0) return players[i].id;
+        
+    }
+}
 
+int CheckPresence(AutonomousPlayer players[],char* name,int num_players){
+    
+    for(int i=0;i<num_players;i++)
+    {
+        if(strcmp(players[i].name,name)==0)
+        {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+void IncrementScore(AutonomousPlayer players[],int num_players,int id,int points){
+    for(int i=0;i<num_players;i++)
+    {
+        if(players[i].id==id)
+        {
+            players[i].points+=points;
+        }
+    }
+}

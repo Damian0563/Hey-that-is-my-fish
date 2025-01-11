@@ -121,3 +121,8 @@ int CheckStuck(Board* board,int sign)
 void MoveAutonomously(Board* board){
     
 }
+
+
+int CanMove(Board* board){
+    return 1;
+}
