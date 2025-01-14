@@ -86,6 +86,7 @@ int AssignId(AutonomousPlayer players[],int num_players);
  * @param OutputFileName The name of the file to which the player's information will be appended.
  * @param name The name of the player to be appended.
  * @param my_id The ID of the player to be appended.
+ * @param num_players number of players.
  */
-void AppendMyPlayer(char* OutputFileName,char* name, int my_id);
+void AppendMyPlayer(char* OutputFileName,char* name, int my_id,int num_players);
 #endif
