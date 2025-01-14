@@ -91,7 +91,7 @@ void PlacePenguin(Board *board, int x, int y, int sign)
 
 void PlaceAutonomously(AutonomousPlayer players[],Board *board,int my_id,int num_players)
 {
-    int best_i,best_j; //searching for tiles with high potential(not on the borders of the board)
+    int best_i=0,best_j=0; //searching for tiles with high potential(not on the borders of the board)
     int best_score=0;
     for(int i=0;i<board->rows;i++)
     {
@@ -99,7 +99,7 @@ void PlaceAutonomously(AutonomousPlayer players[],Board *board,int my_id,int num
         {   
             if(board->array[i][j] == 1)
             {
-                int score=-1;
+                int score=1;
                 if(i+1<board->rows && board->array[i+1][j]>0) score*=board->array[i+1][j];
                 if(i-1>=0 && board->array[i-1][j]>0) score*=board->array[i-1][j];
                 if(j+1<board->columns && board->array[i][j+1]) score*=board->array[i][j+1];
