@@ -175,10 +175,13 @@ int CheckInputValidity(Board* board)
     return 1;
 }
 
-void AppendMyPlayer(char* OutputFileName,char* name, int my_id)
+void AppendMyPlayer(char* OutputFileName,char* name, int my_id,int num_players)
 {
     FILE *pf=fopen(OutputFileName,"a");
-    fprintf(pf,"\n");
+    if(num_players!=0)
+    {
+        fprintf(pf,"\n");
+    }
     fprintf(pf,"%s %d 1",name,my_id);
     fclose(pf);
 }
