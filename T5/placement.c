@@ -118,14 +118,16 @@ void PlaceAutonomously(AutonomousPlayer players[],Board *board,int my_id,int num
 }
 
 
-int CheckPenguinsToPlace(Board *board,int my_id,int PenguinsToPlace){
-    my_id*=-1;
+int CheckPenguinsToPlace(Board *board,int PenguinsToPlace,int my_id){
     int counter=0;
     for(int i=0;i<board->rows;i++)
     {
         for(int j=0;j<board->columns;j++)
         {
-            if(board->array[i][j]==my_id) counter++;
+            if(board->array[i][j]==((-1)*my_id))
+            {
+                counter++;
+            }
         }
     }
     if (counter==PenguinsToPlace) return 0;

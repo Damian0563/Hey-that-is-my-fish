@@ -58,6 +58,6 @@ void PlaceAutonomously(AutonomousPlayer players[],Board* board,int my_id,int num
  * @param my_id Integer value representing the id of the program.
  * @param PenguinsToPlace Integer value storing information about number of penguins per player.
  */ 
-int CheckPenguinsToPlace(Board* board,int my_id,int PenguinsToPlace);
+int CheckPenguinsToPlace(Board* board,int PenguinsToPlace,int my_id);
 
 #endif

@@ -55,16 +55,34 @@ int CheckStuck(Board* board,int sign);
  * 
  * This function iterates through the 2D array to find the best move in the current game state.
  * @param board Pointer to the Board structure representing the game board with interpreted values from input file.
+ * @param players Pointer to the AutonomousPlayer structure representing the players in the game.
+ * @param num_players The number of players in the game.
+ * @param my_id The ID of the player running the program.
  */
-void MoveAutonomously(Board* board);
+void MoveAutonomously(Board* board, AutonomousPlayer* players, int num_players, int my_id);
 
 /**
  * @brief Checks if our program can make a move.
  * 
  * This function iterates through the Board structure to check whether penguins of our program are moveable.
  * @param board Pointer to the Board structure representing the game board with interpreted values from input file.
+ * @param players Pointer to the AutonomousPlayer structure representing the players in the game.
+ * @param num_players The number of players in the game.
+ * @param my_id The ID of the player running the program.
  * @return 0 if can not make a move; 1 otherwise
  */
-int CanMove(Board* board);
+int CanMove(Board* board, AutonomousPlayer* players, int num_players, int my_id);
+
+
+/**
+ * @brief Checks if a player is stuck automatically.
+ *
+ * This function determines if a player, represented by the given sign, is stuck on the board.
+ *
+ * @param board Pointer to the Board object.
+ * @param sign Integer representing the player's sign.
+ * @return int Returns 1 if the player is stuck, 0 otherwise.
+ */
+int checkStuckAutomatically(Board *board, int sign);
 
 #endif
