@@ -89,4 +89,33 @@ int AssignId(AutonomousPlayer players[],int num_players);
  * @param num_players number of players.
  */
 void AppendMyPlayer(char* OutputFileName,char* name, int my_id,int num_players);
+
+
+/**
+ * @brief Validates the dimensions of the given board.
+ * 
+ * This function checks if the dimensions of the provided board are valid.
+ * 
+ * @param board A pointer to the Board structure to be validated.
+ * @return int Returns 0 if the dimensions are valid, otherwise returns an error code.
+ */
+int ValidateBoardDimensions(Board *board);
+
+
+/**
+ * @brief Validates the data of autonomous players.
+ * 
+ * This function checks the validity of the data for a given array of 
+ * AutonomousPlayer structures. It ensures that the data meets the 
+ * required criteria and returns a status code indicating the result 
+ * of the validation.
+ * 
+ * @param players Pointer to an array of AutonomousPlayer structures.
+ * @param num_players The number of players in the array.
+ * @return int Status code indicating the result of the validation:
+ *         - 0: Validation successful.
+ *         - 1: Validation failed due to invalid data.
+ */
+int ValidatePlayerData(const AutonomousPlayer *players, int num_players);
+
 #endif
