@@ -3,7 +3,6 @@
 #include <time.h>
 #include <stdlib.h>
 #include <string.h>
-#include <libgen.h>
 #include "placement.h"
 #include "movement.h"
 #include "utils.h"
@@ -15,12 +14,7 @@ int main(int argc, char *argv[])
     Board board;
     AutonomousPlayer *players;
     int num_players = 0;
-    char *extension = strrchr(argv[0], '.');
-    if ((extension && strcmp(extension, ".exe") == 0) || (extension && strcmp(extension, ".out") == 0))
-    {
-        *extension = '\0'; // Truncate the string at the ".exe" or ".out"
-    }
-    char *name = basename(argv[0]);
+    char *name = "ChillGuys";
     #ifndef Autonomous
         int numPlayer = 0;
         numPlayer = askForPlayers(numPlayer);
@@ -88,24 +82,71 @@ int main(int argc, char *argv[])
         if (argc == 5 && strcmp(argv[1], "phase=placement") == 0)
         {
             // autonomous placement phase
-
-            int PenguinsToPlace;
-            if (sscanf(argv[2], "penguins=%d", &PenguinsToPlace) != 1)
+            if(strcmp(argv[2],"name")==0 || strcmp(argv[3],"name")==0|| strcmp(argv[4],"name")==0){
+                printf("%s",name);
+            }else
             {
-                fprintf(stderr, "Invalid format for penguins argument");
-                return 3;
-            }
-            char *InputFileName = argv[3];
-            char *OutputFileName = argv[4];
-            ReadFile(&board, InputFileName, &players, &num_players);
-            if (CheckInputValidity(&board))
-            {
-                if (CheckPresence(players, name, num_players))
+                int PenguinsToPlace;
+                if (sscanf(argv[2], "penguins=%d", &PenguinsToPlace) != 1)
                 {
-                    int my_id = GetMyId(players, name, num_players);
-                    if (CheckPenguinsToPlace(&board, PenguinsToPlace, my_id))
+                    fprintf(stderr, "Invalid format for penguins argument");
+                    return 3;
+                }
+                char *InputFileName = argv[3];
+                char *OutputFileName = argv[4];
+                ReadFile(&board, InputFileName, &players, &num_players);
+                if (CheckInputValidity(&board))
+                {
+                    if (CheckPresence(players, name, num_players))
                     {
+                        int my_id = GetMyId(players, name, num_players);
+                        if (CheckPenguinsToPlace(&board, PenguinsToPlace, my_id))
+                        {
+                            PlaceAutonomously(players, &board, my_id, num_players);
+                            WriteFile(&board, OutputFileName, players, num_players);
+                            FreeBoard(&board);
+                            free(players);
+                            return 0;
+                        }
+                        else
+                        {
+                            WriteFile(&board, OutputFileName, players, num_players);
+                            FreeBoard(&board);
+                            free(players);
+                            return 1;
+                        }
+                    }
+                    else
+                    {
+                        int my_id = AssignId(players, num_players);
                         PlaceAutonomously(players, &board, my_id, num_players);
+                        WriteFile(&board, OutputFileName, players, num_players);
+                        AppendMyPlayer(OutputFileName, name, my_id, num_players);
+                        FreeBoard(&board);
+                        free(players);
+                        return 0;
+                    }
+                }
+                return 2;
+            }
+        }
+        else if (argc == 4 && strcmp(argv[1], "phase=movement") == 0)
+        {
+            if(strcmp(argv[2],"name")==0 || strcmp(argv[3],"name")==0)
+            {
+                printf("%s",name);
+            }else
+            {
+                char *InputFileName = argv[2];
+                char *OutputFileName = argv[3];
+                ReadFile(&board, InputFileName, &players, &num_players);
+                if (CheckInputValidity(&board))
+                {
+                    int my_id=(-1)*GetMyId(players,name,num_players);
+                    if (CanMove(&board, players, num_players, my_id))
+                    {
+                        // Moveable
+                        MoveAutonomously(&board, players, num_players, my_id);
                         WriteFile(&board, OutputFileName, players, num_players);
                         FreeBoard(&board);
                         free(players);
@@ -113,60 +154,29 @@ int main(int argc, char *argv[])
                     }
                     else
                     {
-                        WriteFile(&board, OutputFileName, players, num_players);
+                        // Unmoveable
                         FreeBoard(&board);
                         free(players);
                         return 1;
                     }
                 }
-                else
-                {
-                    int my_id = AssignId(players, num_players);
-                    PlaceAutonomously(players, &board, my_id, num_players);
-                    WriteFile(&board, OutputFileName, players, num_players);
-                    AppendMyPlayer(OutputFileName, name, my_id, num_players);
-                    FreeBoard(&board);
-                    free(players);
-                    return 0;
-                }
+                return 2;
             }
-            return 2;
-        }
-        else if (argc == 4 && strcmp(argv[1], "phase=movement") == 0)
-        {
-            char *InputFileName = argv[2];
-            char *OutputFileName = argv[3];
-            ReadFile(&board, InputFileName, &players, &num_players);
-            if (CheckInputValidity(&board))
-            {
-                int my_id=(-1)*GetMyId(players,name,num_players);
-                if (CanMove(&board, players, num_players, my_id))
-                {
-                    // Moveable
-                    MoveAutonomously(&board, players, num_players, my_id);
-                    WriteFile(&board, OutputFileName, players, num_players);
-                    FreeBoard(&board);
-                    free(players);
-                    return 0;
-                }
-                else
-                {
-                    // Unmoveable
-                    FreeBoard(&board);
-                    free(players);
-                    return 1;
-                }
-            }
-            return 2;
-        }
-        else if (argc == 2 && strcmp(argv[1], "name") == 0)
-        {
-            printf("%s", name);
         }
         else
         {
-            printf("Invalid amount of command line arguments or arguments");
-            return 3;
+            int flag=0;
+            for(int i=0;i<argc;i++){
+                if(strcmp(argv[i],"name")==0){
+                    flag=1;
+                }
+            }
+            if (flag){
+                printf("%s",name);
+            }else{
+                printf("Invalid amount of command line arguments or arguments");
+                return 3;
+            }
         }
     #endif
 }
