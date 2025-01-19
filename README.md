@@ -13,14 +13,14 @@ T3 : For this assignment, we divided our main.c file into other files with meani
 
 T4 : For this part, we have changed the comments in the header files to doxygen format and implemented structures. We have converted from static memory allocation to dynamic memory allocation for both Player and Board structures. We have added a feature allowing multiple users(at most 4) to play the game together. We made stylistic change of denoting player's penguins by letters(A,B,C,D's) instead of numbers(6,7,8,9). During the meeting we presented our program, it works when appropriate data is inputted, only the mismatched types in input fields are not being handled yet.
 
-T5 : 
+T5 : For this assignment, we completed the error handling for Interactive game mode, with that being said the Interactive game mode is now fully finished. We completed the grand majority of the Autnomous mode, thus far the program reads file, saves data to appropriate structures, handles player addition, has the ability to make placements/movements and write the output to specified file, while handling some important errors. We want to include some more error handling for the following meeting, that is the only ascpect which may be considered lacking.The program correctly accepts command line parameters. We added some helper-functions to handle respective cases.
 
 T6 :
 
 
-Contributions list: (to be filled out)
+Contributions list:
 
--Damian Piechocki:
+-Damian Piechocki: interactive placement phase, file reading, handling player addition and id assignment, accepting command line parameters, converted static board matrix to a Board structure, printing player name to the screen, preliminary code for both interactive and autonomous game modes.
 
 -Nguyen Huynh Gia Bao:
 
