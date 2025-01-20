@@ -1,0 +1,7 @@
+2 2
+10 01
+10 40
+
+Command: ./a.out phase=placement penguins=1 0.txt 9.txt
+Message: Error: Invalid value at row 1, column 1.
+Value returned: 2

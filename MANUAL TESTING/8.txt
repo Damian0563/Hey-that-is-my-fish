@@ -1,0 +1,13 @@
+2 2
+10 01
+10 10
+TeamA 1 1
+
+Command: ./a.out phase=placement penguins=1 0.txt 8.txt
+Value returned: 0
+
+2 2
+10 01 
+10 02 
+TeamA 1 1
+ChillGuys 2 1

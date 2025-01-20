@@ -1,0 +1,19 @@
+5 5
+00 10 20 10 10
+10 20 10 10 30
+10 20 10 10 10
+10 20 10 10 01
+20 20 20 20 10
+TeamA 1 1
+
+Command: ./a.out phase=placement penguins=2 0.txt 3.txt
+Value Returned: 0
+
+5 5
+00 02 20 10 10 
+10 20 10 10 30 
+10 20 10 10 10 
+10 20 10 10 01 
+20 20 20 20 10 
+TeamA 1 1
+ChillGuys 2 1
