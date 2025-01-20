@@ -1,0 +1,7 @@
+2 2
+01 00 
+00 00 
+ChillGuys 1 1
+
+Command: ./a.out phase=movement  0.txt 12.txt
+Value returned: 1

@@ -1,0 +1,10 @@
+3 3
+10 10 10
+10 10 00
+10 01 00
+TeamA 10 1
+
+Command: ./a.out phase=placement penguins=1 0.txt 5.txt
+Message printed: Error: Invalid data for player 0.
+                 Error: Invalid player data.
+Value returned: 2
