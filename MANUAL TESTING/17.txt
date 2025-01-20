@@ -1,0 +1,11 @@
+5 5
+10 10 10
+10 10 10
+01 10 20
+30 10 10
+20 10 10
+TEAMa 1 1
+
+Command: ./a.out phase=placement penguins=1 0.txt 17.txt
+Message: Warning: Missing data in row 1.
+Value returned: 2

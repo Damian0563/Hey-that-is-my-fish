@@ -122,12 +122,17 @@ int main(int argc, char *argv[])
                     else
                     {
                         int my_id = AssignId(players, num_players);
-                        PlaceAutonomously(players, &board, my_id, num_players);
-                        WriteFile(&board, OutputFileName, players, num_players);
-                        AppendMyPlayer(OutputFileName, name, my_id, num_players);
-                        FreeBoard(&board);
-                        free(players);
-                        return 0;
+                        if(my_id<10)
+                        {
+                            PlaceAutonomously(players, &board, my_id, num_players);
+                            WriteFile(&board, OutputFileName, players, num_players);
+                            AppendMyPlayer(OutputFileName, name, my_id, num_players);
+                            FreeBoard(&board);
+                            free(players);
+                            return 0;
+                        }
+                        printf("Maximum amount of players, can not place a penguin");
+                        return 2;
                     }
                 }
                 return 2;

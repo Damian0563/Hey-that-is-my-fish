@@ -1,0 +1,9 @@
+-3 -3
+10 10 20
+00 20 10
+01 10 10
+ChillGuys 1 1
+
+Message: Error: Invalid board dimensions.
+Command: ./a.out phase=movement  0.txt 15.txt
+Value returned: 2
