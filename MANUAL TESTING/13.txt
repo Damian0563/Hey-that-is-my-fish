@@ -1,0 +1,15 @@
+3 3
+10 10 20
+1  20 10
+01 10 10
+ChillGuys 1 1
+
+Command: ./a.out phase=movement  0.txt 13.txt
+Message: Invalid value detected on a tile, changing tile value to 0
+Value returned: 0
+
+3 3
+10 10 20 
+00 20 10 
+00 01 10 
+ChillGuys 1 2

@@ -63,7 +63,7 @@ void ReadFile(Board *board, char *file_name, AutonomousPlayer **players, int *nu
                 if (token == NULL)
                 {
                     printf("Warning: Missing data in row %d.\n", row_index);
-                    return; // Soft error: do not terminate.
+                    exit(2);
                 }
                 board->array[row_index - 1][col_index] = interpretValueRead(token);
                 token = strtok(NULL, " ");
@@ -188,6 +188,7 @@ int AssignId(AutonomousPlayer players[],int num_players)
             return i;
         }
     }
+    return 10;
 }
 
 int interpretValueRead(char *token)
@@ -199,6 +200,14 @@ int interpretValueRead(char *token)
     else if (strcmp(token, "10") == 0 || strcmp(token, "20") == 0 || strcmp(token, "30") == 0)
     {
         return atoi(token) / 10;
+    }else if(strlen(token)<=1){
+        printf("Invalid value detected on a tile, changing tile value to 0");
+        return 0;
+    }else if(atoi(token)>=11 && atoi(token)<=39)
+    {
+        if(atoi(token)>=11 && atoi(token)<20) return -(atoi(token)-10);
+        if(atoi(token)>=21 && atoi(token)<30) return -(atoi(token)-20);
+        else return -(atoi(token)-30);
     }
     else
     {
