@@ -1,3 +1,12 @@
+/**
+ * @file unittest.c
+ * @author Team D
+ * @brief This file contains the unit tests for the game.
+ * @date 2025-01-02
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include "utils.h"
@@ -6,6 +15,11 @@
 #include "movement.h"
 #include "structs.h"
 
+/**
+ * @brief this function tests the initialization of the board
+ * 
+ * @return * void 
+ */
 void testBoardInitialization()
 {
     Board board;
@@ -37,6 +51,11 @@ void testBoardInitialization()
     printf("test_board_initialization passed\n");
 }
 
+/**
+ * @brief this function tests movement validation function
+ * 
+ * @return * void 
+ */
 void testValidateMove()
 {
     Board board;
@@ -63,6 +82,11 @@ void testValidateMove()
     printf("test_validate_move passed\n");
 }
 
+/**
+ * @brief this function tests the score incrementation
+ * 
+ * @return * void 
+ */
 void testIncrementScore()
 {
     AutonomousPlayer players[2] = {
@@ -86,6 +110,11 @@ void testIncrementScore()
     printf("test_increment_score passed\n");
 }
 
+/**
+ * @brief this function tests the check presence function
+ * 
+ * @return * void 
+ */
 void testCheckPresence()
 {
     AutonomousPlayer players[2] = {
@@ -101,6 +130,11 @@ void testCheckPresence()
     printf("test_check_presence passed\n");
 }
 
+/**
+ * @brief this function tests the validate dimensions and penguins function
+ * 
+ * @return * void 
+ */
 void testValidateDimensionsAndPenguins()
 {
     Board board;
@@ -124,6 +158,11 @@ void testValidateDimensionsAndPenguins()
     printf("test_validate_dimensions_and_penguins passed\n");
 }
 
+/**
+ * @brief this function tests the validate board dimensions function
+ * 
+ * @return * void 
+ */
 void testvalidateBoardDimensions()
 {
     Board board;
@@ -153,6 +192,11 @@ void testvalidateBoardDimensions()
     printf("test_validate_board_dimensions passed\n");
 }
 
+/**
+ * @brief this function tests the validate player data function
+ * 
+ * @return * void 
+ */
 void testValidatePlayerData()
 {
     AutonomousPlayer players[2] = {
@@ -183,6 +227,11 @@ void testValidatePlayerData()
     printf("test_validate_player_data passed\n");
 }
 
+/**
+ * @brief this function tests the function that checks if player can move
+ * 
+ * @return * void 
+ */
 void testCanMove()
 {
     Board board;
@@ -220,6 +269,11 @@ void testCanMove()
     printf("test_can_move passed\n");
 }
 
+/**
+ * @brief this function tests the check input validity function
+ * 
+ * @return * void 
+ */
 void testCheckInputValidity()
 {
     Board board;
@@ -261,6 +315,11 @@ void testCheckInputValidity()
     printf("test_check_input_validity passed\n");
 }
 
+/**
+ * @brief this function runs all the tests
+ * 
+ * @return * int 
+ */
 int main()
 {
     testBoardInitialization();
