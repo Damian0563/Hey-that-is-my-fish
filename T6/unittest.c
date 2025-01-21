@@ -6,22 +6,27 @@
 #include "movement.h"
 #include "structs.h"
 
-void test_board_initialization() {
+void testBoardInitialization()
+{
     Board board;
     board.rows = 3;
     board.columns = 3;
     board.penguins_per_player = 2;
 
     board.array = malloc(board.rows * sizeof(int *));
-    for (int i = 0; i < board.rows; i++) {
+    for (int i = 0; i < board.rows; i++)
+    {
         board.array[i] = malloc(board.columns * sizeof(int));
     }
 
     fillBoard(&board, 2);
 
-    for (int i = 0; i < board.rows; i++) {
-        for (int j = 0; j < board.columns; j++) {
-            if (!(board.array[i][j] >= 0 && board.array[i][j] <= 3)) {
+    for (int i = 0; i < board.rows; i++)
+    {
+        for (int j = 0; j < board.columns; j++)
+        {
+            if (!(board.array[i][j] >= 0 && board.array[i][j] <= 3))
+            {
                 printf("test_board_initialization failed\n");
                 return;
             }
@@ -32,13 +37,15 @@ void test_board_initialization() {
     printf("test_board_initialization passed\n");
 }
 
-void test_validate_move() {
+void testValidateMove()
+{
     Board board;
     board.rows = 3;
     board.columns = 3;
 
     board.array = malloc(board.rows * sizeof(int *));
-    for (int i = 0; i < board.rows; i++) {
+    for (int i = 0; i < board.rows; i++)
+    {
         board.array[i] = malloc(board.columns * sizeof(int));
     }
 
@@ -46,7 +53,8 @@ void test_validate_move() {
     board.array[1][0] = 2;
     board.array[2][0] = 0;
 
-    if (validateMove(&board, 0, 0, 1, 0) != 0 || validateMove(&board, 0, 0, 2, 0) != 1) {
+    if (validateMove(&board, 0, 0, 1, 0) != 0 || validateMove(&board, 0, 0, 2, 0) != 1)
+    {
         printf("test_validate_move failed\n");
         return;
     }
@@ -55,20 +63,22 @@ void test_validate_move() {
     printf("test_validate_move passed\n");
 }
 
-void test_increment_score() {
+void testIncrementScore()
+{
     AutonomousPlayer players[2] = {
         {"Player1", 1, 0},
-        {"Player2", 2, 0}
-    };
+        {"Player2", 2, 0}};
 
     incrementScore(players, 2, 1, 3);
-    if (players[0].points != 3) {
+    if (players[0].points != 3)
+    {
         printf("test_increment_score failed\n");
         return;
     }
 
     incrementScore(players, 2, 2, 5);
-    if (players[1].points != 5) {
+    if (players[1].points != 5)
+    {
         printf("test_increment_score failed\n");
         return;
     }
@@ -76,13 +86,14 @@ void test_increment_score() {
     printf("test_increment_score passed\n");
 }
 
-void test_check_presence() {
+void testCheckPresence()
+{
     AutonomousPlayer players[2] = {
         {"Player1", 1, 10},
-        {"Player2", 2, 15}
-    };
+        {"Player2", 2, 15}};
 
-    if (checkPresence(players, "Player1", 2) != 1 || checkPresence(players, "Player3", 2) != 0) {
+    if (checkPresence(players, "Player1", 2) != 1 || checkPresence(players, "Player3", 2) != 0)
+    {
         printf("test_check_presence failed\n");
         return;
     }
@@ -90,19 +101,22 @@ void test_check_presence() {
     printf("test_check_presence passed\n");
 }
 
-void test_validate_dimensions_and_penguins() {
+void testValidateDimensionsAndPenguins()
+{
     Board board;
     board.rows = 3;
     board.columns = 3;
     board.penguins_per_player = 2;
 
-    if (validateDimensionsAndPenguins(&board, 2) != 1) {
+    if (validateDimensionsAndPenguins(&board, 2) != 1)
+    {
         printf("test_validate_dimensions_and_penguins failed\n");
         return;
     }
 
     board.penguins_per_player = 5;
-    if (validateDimensionsAndPenguins(&board, 2) != 0) {
+    if (validateDimensionsAndPenguins(&board, 2) != 0)
+    {
         printf("test_validate_dimensions_and_penguins failed\n");
         return;
     }
@@ -110,24 +124,28 @@ void test_validate_dimensions_and_penguins() {
     printf("test_validate_dimensions_and_penguins passed\n");
 }
 
-void test_validate_board_dimensions() {
+void testvalidateBoardDimensions()
+{
     Board board;
     board.rows = 10;
     board.columns = 10;
 
-    if (validateBoardDimensions(&board) != 1) {
+    if (validateBoardDimensions(&board) != 1)
+    {
         printf("test_validate_board_dimensions failed\n");
         return;
     }
 
     board.rows = 0;
-    if (validateBoardDimensions(&board) != 0) {
+    if (validateBoardDimensions(&board) != 0)
+    {
         printf("test_validate_board_dimensions failed\n");
         return;
     }
 
     board.columns = 0;
-    if (validateBoardDimensions(&board) != 0) {
+    if (validateBoardDimensions(&board) != 0)
+    {
         printf("test_validate_board_dimensions failed\n");
         return;
     }
@@ -135,26 +153,29 @@ void test_validate_board_dimensions() {
     printf("test_validate_board_dimensions passed\n");
 }
 
-void test_validate_player_data() {
+void testValidatePlayerData()
+{
     AutonomousPlayer players[2] = {
         {"Player1", 1, 10},
-        {"Player2", 2, 15}
-    };
+        {"Player2", 2, 15}};
 
-    if (validatePlayerData(players, 2) != 1) {
+    if (validatePlayerData(players, 2) != 1)
+    {
         printf("test_validate_player_data failed\n");
         return;
     }
 
     players[1].id = -1;
-    if (validatePlayerData(players, 2) != 0) {
+    if (validatePlayerData(players, 2) != 0)
+    {
         printf("test_validate_player_data failed\n");
         return;
     }
 
     players[1].id = 2;
     players[1].points = -5;
-    if (validatePlayerData(players, 2) != 0) {
+    if (validatePlayerData(players, 2) != 0)
+    {
         printf("test_validate_player_data failed\n");
         return;
     }
@@ -162,32 +183,35 @@ void test_validate_player_data() {
     printf("test_validate_player_data passed\n");
 }
 
-void test_can_move() {
+void testCanMove()
+{
     Board board;
     board.rows = 3;
     board.columns = 3;
 
     board.array = malloc(board.rows * sizeof(int *));
-    for (int i = 0; i < board.rows; i++) {
+    for (int i = 0; i < board.rows; i++)
+    {
         board.array[i] = malloc(board.columns * sizeof(int));
     }
 
     AutonomousPlayer players[2] = {
         {"Player1", -1, 0},
-        {"Player2", -2, 0}
-    };
+        {"Player2", -2, 0}};
 
     board.array[0][0] = -1;
     board.array[1][0] = 2;
     board.array[2][0] = 0;
 
-    if (canMove(&board, players, 2, 1) != 1) {
+    if (canMove(&board, players, 2, 1) != 1)
+    {
         printf("test_can_move failed\n");
         return;
     }
 
     board.array[0][0] = 0;
-    if (canMove(&board, players, 2, 1) != 0) {
+    if (canMove(&board, players, 2, 1) != 0)
+    {
         printf("test_can_move failed\n");
         return;
     }
@@ -196,34 +220,39 @@ void test_can_move() {
     printf("test_can_move passed\n");
 }
 
-void test_check_input_validity() {
+void testCheckInputValidity()
+{
     Board board;
     board.rows = 3;
     board.columns = 3;
 
     board.array = malloc(board.rows * sizeof(int *));
-    for (int i = 0; i < board.rows; i++) {
+    for (int i = 0; i < board.rows; i++)
+    {
         board.array[i] = malloc(board.columns * sizeof(int));
     }
 
     AutonomousPlayer players[2] = {
         {"Player1", -1, 10},
-        {"Player2", -2, 15}
-    };
+        {"Player2", -2, 15}};
 
-    for (int i = 0; i < board.rows; i++) {
-        for (int j = 0; j < board.columns; j++) {
+    for (int i = 0; i < board.rows; i++)
+    {
+        for (int j = 0; j < board.columns; j++)
+        {
             board.array[i][j] = 1;
         }
     }
 
-    if (checkInputValidity(&board) != 1) {
+    if (checkInputValidity(&board) != 1)
+    {
         printf("test_check_input_validity failed\n");
         return;
     }
 
     board.array[0][0] = 100;
-    if (checkInputValidity(&board) != 0) {
+    if (checkInputValidity(&board) != 0)
+    {
         printf("test_check_input_validity failed\n");
         return;
     }
@@ -232,16 +261,17 @@ void test_check_input_validity() {
     printf("test_check_input_validity passed\n");
 }
 
-int main() {
-    test_board_initialization();
-    test_validate_move();
-    test_increment_score();
-    test_check_presence();
-    test_validate_dimensions_and_penguins();
-    test_validate_board_dimensions();
-    test_validate_player_data();
-    test_can_move();
-    test_check_input_validity();
+int main()
+{
+    testBoardInitialization();
+    testValidateMove();
+    testIncrementScore();
+    testCheckPresence();
+    testValidateDimensionsAndPenguins();
+    testvalidateBoardDimensions();
+    testValidatePlayerData();
+    testCanMove();
+    testCheckInputValidity();
 
     printf("All tests passed!\n");
     return 0;

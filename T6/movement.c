@@ -3,9 +3,9 @@
  * @author Team D
  * @brief This file contains the implementation of functions for moving penguins on the game board.
  * @date 2025-01-02
- * 
+ *
  * @copyright Copyright (c) 2025
- * 
+ *
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,7 +14,7 @@
 
 /**
  * @brief This function moves a penguin to a new tile on the board after performing validations.
- * 
+ *
  * @param board Pointer to the Board structure representing the game board.
  * @param x Pointer to the x-coordinate of the penguin's current location.
  * @param y Pointer to the y-coordinate of the penguin's current location.
@@ -34,9 +34,9 @@ void movePenguin(Board *board, int *x, int *y, int *x1, int *y1, int sign)
 
 /**
  * @brief This function validates the move and places the penguin at the specified new location.
- * 
+ *
  * This function validates the move by checking if the path is blocked and if the penguin is moving in a straight line in 4 directions.
- * 
+ *
  * @param board Pointer to the Board structure representing the game board.
  * @param x Pointer to the x-coordinate of the penguin's current location.
  * @param y Pointer to the y-coordinate of the penguin's current location.
@@ -108,9 +108,9 @@ int validateMove(Board *board, int x, int y, int x1, int y1)
 
 /**
  * @brief This function checks if a penguin can make a valid move from its current location.
- * 
+ *
  * This function verifies the surrounding tiles of the penguin to determine if a move is possible.
- * 
+ *
  * @param i The x-coordinate of the penguin's current location.
  * @param j The y-coordinate of the penguin's current location.
  * @param board Pointer to the Board structure representing the game board.
@@ -132,9 +132,9 @@ int checkSurrounding(int i, int j, Board *board)
 
 /**
  * @brief This function checks if a player is completely stuck and unable to move any penguin for the autonomous mode.
- * 
+ *
  * This function iterates through the player's penguins to determine if all are immobile.
- * 
+ *
  * @param board Pointer to the Board structure representing the game board.
  * @param sign An integer symbol denoting the player's penguin.
  * @return 0 if the player can make a move; 1 if all penguins are stuck.
@@ -142,7 +142,7 @@ int checkSurrounding(int i, int j, Board *board)
 int checkStuckAutomatically(Board *board, int sign)
 {
     int total_counter = 0;
-    int penguins=0;
+    int penguins = 0;
     for (int i = 0; i < board->rows; i++)
     {
         for (int j = 0; j < board->columns; j++)
@@ -173,9 +173,9 @@ int checkStuckAutomatically(Board *board, int sign)
 
 /**
  * @brief This function checks if a player is completely stuck and unable to move any penguin for the PvP mode.
- * 
+ *
  * This function iterates through the player's penguins to determine if all are immobile.
- * 
+ *
  * @param board Pointer to the Board structure representing the game board.
  * @param sign An integer symbol denoting the player's penguin.
  * @return 0 if the player can make a move; 1 if all penguins are stuck.
@@ -215,9 +215,9 @@ int checkStuck(Board *board, int sign)
 
 /**
  * @brief This function moves the penguin autonomously using logic.
- * 
+ *
  * This function iterates through the 2D array to find the best move in the current game state. it Utilizes the checkStuckAutomatically function
- * 
+ *
  * @param board Pointer to the Board structure representing the game board with interpreted values from input file.
  * @param players Pointer to the AutonomousPlayer structure representing the players in the game.
  * @param num_players The number of players in the game.
@@ -226,8 +226,8 @@ int checkStuck(Board *board, int sign)
 int canMove(Board *board, AutonomousPlayer *players, int num_players, int my_id)
 {
     for (int i = 0; i < num_players; i++)
-    {   
-        if (players[i].id == (-1)*my_id && checkStuckAutomatically(board, (-1)*players[i].id) == 0)
+    {
+        if (players[i].id == (-1) * my_id && checkStuckAutomatically(board, (-1) * players[i].id) == 0)
         {
             return 1; // A player can move
         }
@@ -237,10 +237,10 @@ int canMove(Board *board, AutonomousPlayer *players, int num_players, int my_id)
 
 /**
  * @brief This function moves the penguin autonomously using logic.
- * 
+ *
  * This function iterates through the 2D array to find the best move in the current game state by checking the fish on and around the floes. It checks in 4 directions
  * for the best move, then checks again around that new best move location to find potentially more fish, if the total comes back as the best move, the penguin is moved.
- * 
+ *
  * @param board Pointer to the Board structure representing the game board with interpreted values from input file.
  * @param players Pointer to the AutonomousPlayer structure representing the players in the game.
  * @param num_players The number of players in the game.
@@ -263,8 +263,8 @@ void moveAutonomously(Board *board, AutonomousPlayer *players, int num_players, 
                     int step = 1;
                     while (1)
                     {
-                        int x = i + step * directions[d][0]; // Checking the floe in the new coordinates
-                        int y = j + step * directions[d][1]; // Checking the floe in the new coordinates
+                        int x = i + step * directions[d][0];                                                     // Checking the floe in the new coordinates
+                        int y = j + step * directions[d][1];                                                     // Checking the floe in the new coordinates
                         if (x >= 0 && x < board->rows && y >= 0 && y < board->columns && board->array[x][y] > 0) // Validating the new coordinates are within the board and have fish
                         {
                             int fish = board->array[x][y];                                         // the number of fish on the floe
@@ -309,7 +309,7 @@ void moveAutonomously(Board *board, AutonomousPlayer *players, int num_players, 
         // Add the collected fish to the player's points
         for (int i = 0; i < num_players; i++)
         {
-            if (players[i].id == (-1)*my_id)
+            if (players[i].id == (-1) * my_id)
             {
                 players[i].points += max_fish;
                 break;

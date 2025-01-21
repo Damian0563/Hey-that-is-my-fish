@@ -3,9 +3,9 @@
  * @author Team D
  * @brief This file contains the implementation of functions for accessing and editing input/output files
  * @date 2025-01-02
- * 
+ *
  * @copyright Copyright (c) 2025
- * 
+ *
  */
 #include <stdio.h>
 #include <string.h>
@@ -18,9 +18,9 @@
 
 /**
  * @brief Reads the game board and player information from a file.
- * 
+ *
  * This function reads the contents of the specified file and initializes the game board
- * 
+ *
  * @param board a pointer to the Board structure that will be initialized with the file data.
  * @param file_name a string representing the name of the file to be read.
  * @param players a pointer to an array of AutonomousPlayer pointers that will be initialized with the player data.
@@ -141,7 +141,7 @@ void readFile(Board *board, char *file_name, AutonomousPlayer **players, int *nu
  * @brief Validates the input data read from the file.
  *
  * This function validates the input data read from the file. It checks the board dimensions
- * 
+ *
  * @param board A pointer to the Board structure to be validated.
  * @return int
  */
