@@ -1,5 +1,0 @@
-var searchData=
-[
-  ['readfile_0',['readFile',['../file__handling_8c.html#af30f8f3251f12866e624d9ca574397f3',1,'file_handling.c']]],
-  ['rows_1',['rows',['../structBoard.html#ab0678710e0cb026be902dbb6a8ad8c40',1,'Board']]]
-];

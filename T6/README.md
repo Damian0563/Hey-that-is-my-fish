@@ -22,43 +22,6 @@ Contributions list:
 
 -Damian Piechocki: interactive placement phase, file reading, handling player addition and id assignment, accepting command line parameters, converted static board matrix to a Board structure, printing player name to the screen, preliminary code for both interactive and autonomous game modes, manual testing.
 
--Nguyen Huynh Gia Bao:
+-Nguyen Huynh Gia Bao: Interactive movement phase, autonomous movement phase, player score distribution, interactive summerization (game end), handling interpret values for both read and write txt files, formating the files (code blocks, syntax, naming conventions, camelCase, snake_case), generating documentation, adding Doxygen comments to functions.
 
--Priyanshu Rajput:
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+-Priyanshu Rajput: fixation of errors throughout the project, additional checks to terminate, taking inputs from the user utils.c , unit testing, assignment of doxygen styled comments in few functions.
