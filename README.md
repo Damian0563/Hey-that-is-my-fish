@@ -15,7 +15,7 @@ T4 : For this part, we have changed the comments in the header files to doxygen 
 
 T5 : For this assignment, we completed the error handling for Interactive game mode, with that being said the Interactive game mode is now fully finished. We completed the grand majority of the Autnomous mode, thus far the program reads file, saves data to appropriate structures, handles player addition, has the ability to make placements/movements and write the output to specified file, while handling some important errors. We want to include some more error handling for the following meeting, that is the only aspect which may be considered lacking.The program correctly accepts command line parameters. We added some helper-functions to handle respective cases.
 
-T6 :
+T6 : For this assignment we added a few minor finishing touches that render our program functional in the autonomous mode. We added some additional error handling. We created a new unittest.c file which gauges the correctness of vital autonomous mode functions. Moreover, we did some documented manual testing to ensure our program works as expected. Finally, we generated doxygen documentation for the project.
 
 
 Contributions list:
