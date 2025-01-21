@@ -9,6 +9,16 @@
 #include "structs.h"
 #include "file_handling.h"
 
+/**
+ * @brief Main function of the program.
+ * 
+ * This function is the entry point of the program. It handles the game logic
+ * and player interactions based on the command line arguments provided.
+ * 
+ * @param argc The number of command line arguments.
+ * @param argv An array of strings containing the command line arguments.
+ * @return An integer indicating the success or failure of the program.
+ */
 int main(int argc, char *argv[])
 {
     Board board;
@@ -16,18 +26,18 @@ int main(int argc, char *argv[])
     int num_players = 0;
     char *name = "ChillGuys";
     #ifndef Autonomous
-        int numPlayer = 0;
-        numPlayer = askForPlayers(numPlayer);
-        Player players[numPlayer];
+        int num_players = 0;
+        num_players = askForPlayers(num_players);
+        Player players[num_players];
         // Initialize players
-        initializePlayers(numPlayer, players);
+        initializePlayers(num_players, players);
         srand(time(NULL));
         int stuck = 0;
-        GenerateBoard(&board, numPlayer);
-        int curPlayerIndex = 0, total = board.penguins_per_player * numPlayer;
-        FillBoard(&board, numPlayer);
+        generateBoard(&board, num_players);
+        int curPlayerIndex = 0, total = board.penguins_per_player * num_players;
+        fillBoard(&board, num_players);
         printf("\nGenerated board: \n");
-        ShowBoard(&board);
+        showBoard(&board);
 
         printf("\nPlacement phase commences\n\n");
         do
@@ -37,11 +47,11 @@ int main(int argc, char *argv[])
             printf("\nPlayer %d place your penguin\n", curPlayerIndex + 1);
             do
             {
-                AskForCoordinates(&x, &y);
-            } while (ValidateCoordinates(&board, x, y) == 1);
-            PlacePenguin(&board, x, y, sign);
-            ShowBoard(&board);
-            curPlayerIndex = (curPlayerIndex + 1) % numPlayer;
+                askForCoordinates(&x, &y);
+            } while (validateCoordinates(&board, x, y) == 1);
+            placePenguin(&board, x, y, sign);
+            showBoard(&board);
+            curPlayerIndex = (curPlayerIndex + 1) % num_players;
             total -= 1;
         } while (total > 0);
 
@@ -51,32 +61,32 @@ int main(int argc, char *argv[])
         {
             int x, y, x1, y1;
             int sign = curPlayerIndex + 6;
-            if (CheckStuck(&board, sign) == 1)
+            if (checkStuck(&board, sign) == 1)
             {
-                curPlayerIndex = (curPlayerIndex + 1) % numPlayer;
+                curPlayerIndex = (curPlayerIndex + 1) % num_players;
                 stuck++;
             }
             else
             {
                 do
                 {
-                    AskForCoordinatesOfPenguin(&x, &y, sign, &board);
-                    AskForCoordinatesMovement(&x, &y, &x1, &y1, sign, &board);
-                } while (ValidateMove(&board, x, y, x1, y1) == 1);
+                    askForCoordinatesOfPenguin(&x, &y, sign, &board);
+                    askForCoordinatesMovement(&x, &y, &x1, &y1, sign, &board);
+                } while (validateMove(&board, x, y, x1, y1) == 1);
                 players[curPlayerIndex].score += board.array[x1][y1];
-                MovePenguin(&board, &x, &y, &x1, &y1, sign);
-                ShowBoard(&board);
-                printScores(players, numPlayer);
-                curPlayerIndex = (curPlayerIndex + 1) % numPlayer;
+                movePenguin(&board, &x, &y, &x1, &y1, sign);
+                showBoard(&board);
+                printScores(players, num_players);
+                curPlayerIndex = (curPlayerIndex + 1) % num_players;
                 stuck = 0;
             }
-        } while (stuck < numPlayer);
+        } while (stuck < num_players);
         printf("No player can move. Game Ending...\n");
         // Summarization
         printf("Summarization\n");
-        printScores(players, numPlayer);
-        summerization(players, numPlayer);
-        FreeBoard(&board);
+        printScores(players, num_players);
+        summerization(players, num_players);
+        freeBoard(&board);
         return 0;
     #else
         if (argc == 5 && strcmp(argv[1], "phase=placement") == 0)
@@ -86,48 +96,48 @@ int main(int argc, char *argv[])
                 printf("%s",name);
             }else
             {
-                int PenguinsToPlace;
-                if (sscanf(argv[2], "penguins=%d", &PenguinsToPlace) != 1)
+                int penguins_to_place;
+                if (sscanf(argv[2], "penguins=%d", &penguins_to_place) != 1)
                 {
                     fprintf(stderr, "Invalid format for penguins argument");
                     return 3;
-                }if(PenguinsToPlace<=0){
+                }if(penguins_to_place<=0){
                     printf("Invalid amount of penguins specified");
                     return 2;
                 }
-                char *InputFileName = argv[3];
-                char *OutputFileName = argv[4];
-                ReadFile(&board, InputFileName, &players, &num_players);
-                if (CheckInputValidity(&board))
+                char *input_file_name = argv[3];
+                char *output_file_name = argv[4];
+                readFile(&board, input_file_name, &players, &num_players);
+                if (checkInputValidity(&board))
                 {
-                    if (CheckPresence(players, name, num_players))
+                    if (checkPresence(players, name, num_players))
                     {
-                        int my_id = GetMyId(players, name, num_players);
-                        if (CheckPenguinsToPlace(&board, PenguinsToPlace, my_id))
+                        int my_id = getMyId(players, name, num_players);
+                        if (checkPenguinsToPlace(&board, penguins_to_place, my_id))
                         {
-                            PlaceAutonomously(players, &board, my_id, num_players);
-                            WriteFile(&board, OutputFileName, players, num_players);
-                            FreeBoard(&board);
+                            placeAutonomously(players, &board, my_id, num_players);
+                            writeFile(&board, output_file_name, players, num_players);
+                            freeBoard(&board);
                             free(players);
                             return 0;
                         }
                         else
                         {
-                            WriteFile(&board, OutputFileName, players, num_players);
-                            FreeBoard(&board);
+                            writeFile(&board, output_file_name, players, num_players);
+                            freeBoard(&board);
                             free(players);
                             return 1;
                         }
                     }
                     else
                     {
-                        int my_id = AssignId(players, num_players);
+                        int my_id = assignId(players, num_players);
                         if(my_id<10)
                         {
-                            PlaceAutonomously(players, &board, my_id, num_players);
-                            WriteFile(&board, OutputFileName, players, num_players);
-                            AppendMyPlayer(OutputFileName, name, my_id, num_players);
-                            FreeBoard(&board);
+                            placeAutonomously(players, &board, my_id, num_players);
+                            writeFile(&board, output_file_name, players, num_players);
+                            appendMyPlayer(output_file_name, name, my_id, num_players);
+                            freeBoard(&board);
                             free(players);
                             return 0;
                         }
@@ -145,29 +155,29 @@ int main(int argc, char *argv[])
                 printf("%s",name);
             }else
             {
-                char *InputFileName = argv[2];
-                char *OutputFileName = argv[3];
-                ReadFile(&board, InputFileName, &players, &num_players);
-                if (CheckInputValidity(&board))
+                char *input_file_name = argv[2];
+                char *output_file_name = argv[3];
+                readFile(&board, input_file_name, &players, &num_players);
+                if (checkInputValidity(&board))
                 {
                     
-                    int my_id=(-1)*GetMyId(players,name,num_players);
+                    int my_id=(-1)*getMyId(players,name,num_players);
                     if (my_id!=0)
                     {
-                        if (CanMove(&board, players, num_players, my_id))
+                        if (canMove(&board, players, num_players, my_id))
                         {
                             // Moveable
-                            MoveAutonomously(&board, players, num_players, my_id);
-                            WriteFile(&board, OutputFileName, players, num_players);
-                            FreeBoard(&board);
+                            moveAutonomously(&board, players, num_players, my_id);
+                            writeFile(&board, output_file_name, players, num_players);
+                            freeBoard(&board);
                             free(players);
                             return 0;
                         }
                         else
                         {
                             // Unmoveable
-                            WriteFile(&board, OutputFileName, players, num_players);
-                            FreeBoard(&board);
+                            writeFile(&board, output_file_name, players, num_players);
+                            freeBoard(&board);
                             free(players);
                             return 1;
                         }

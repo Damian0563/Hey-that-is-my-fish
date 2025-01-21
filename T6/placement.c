@@ -6,10 +6,13 @@
 #include "structs.h"
 #include <string.h>
 
-
-
-
-void GenerateBoard(Board *board, int numPlayer)
+/**
+ * @brief This function generates the game board and initializes it based on user input.
+ * 
+ * @param board pointer to the Board structure to initialize.
+ * @param numPlayer the number of players participating in the game.
+ */
+void generateBoard(Board *board, int numPlayer)
 {
     int ans;
     char term;
@@ -26,9 +29,9 @@ void GenerateBoard(Board *board, int numPlayer)
     {
         do
         {
-            AskForDimensions(board);
-            AskForPenguins(board);
-        } while (ValidateDimensionsAndPenguins(board, numPlayer) == 0);
+            askForDimensions(board);
+            askForPenguins(board);
+        } while (validateDimensionsAndPenguins(board, numPlayer) == 0);
     }
     else
     {
@@ -37,12 +40,18 @@ void GenerateBoard(Board *board, int numPlayer)
         {
             board->rows = (rand() % 10) + 3;
             board->columns = (rand() % 10) + 3;
-            AskForPenguins(board);
-        } while (ValidateDimensionsAndPenguins(board, numPlayer) == 0);
+            askForPenguins(board);
+        } while (validateDimensionsAndPenguins(board, numPlayer) == 0);
     }
 }
 
-void FillBoard(Board *board, int numPlayer)
+/**
+ * @brief This function checks if the board has enough space for the penguins.
+ * 
+ * @param board pointer to the Board structure representing the game board.
+ * @param numPlayer the number of players participating in the game.
+ */
+void fillBoard(Board *board, int numPlayer)
 {
     int ones = 0;
     board->array = (int **)malloc(board->rows * sizeof(int *));
@@ -60,7 +69,7 @@ void FillBoard(Board *board, int numPlayer)
     {
         for (int j = 0; j < board->columns; j++)
         {
-            board->array[i][j] = GenerateTile();
+            board->array[i][j] = generateTile();
             if (board->array[i][j] == 1)
             {
                 ones++;
@@ -79,17 +88,37 @@ void FillBoard(Board *board, int numPlayer)
     }
 }
 
-int GenerateTile()
+/**
+ * @brief This function generates a random tile value in the range [0, 3] inclusive.
+ * 
+ * @return An integer representing the generated tile value.
+ */
+int generateTile()
 {
     return rand() % 4;
 }
 
-void PlacePenguin(Board *board, int x, int y, int sign)
+/**
+ * @brief This function places a penguin on the selected tile of the board.
+ * 
+ * @param board Pointer to the Board structure representing the game board.
+ * @param x The x-coordinate of the tile on the board.
+ * @param y The y-coordinate of the tile on the board.
+ * @param sign An integer symbol denoting the player's penguin (e.g., 8 or 9).
+ */
+void placePenguin(Board *board, int x, int y, int sign)
 {
     board->array[x][y] = sign;
 }
 
-void PlaceAutonomously(AutonomousPlayer players[],Board *board,int my_id,int num_players)
+/**
+ * @brief This function places a penguin autonomously on the board using logic.
+ * 
+ * @param board Pointer to the Board structure representing the game board.
+ * @param my_id Integer value representing the id of the program.
+ * @param num_players Integer value representing the number of players in the game.
+ */
+void placeAutonomously(AutonomousPlayer players[],Board *board,int my_id,int num_players)
 {
     int best_i=-1,best_j=0; //searching for tiles with high potential(not on the borders of the board)
     int best_score=0;
@@ -114,15 +143,22 @@ void PlaceAutonomously(AutonomousPlayer players[],Board *board,int my_id,int num
         }
     }
     if(best_i!=-1){
-        IncrementScore(players,num_players,my_id,board->array[best_i][best_j]);
+        incrementScore(players,num_players,my_id,board->array[best_i][best_j]);
         board->array[best_i][best_j]=(my_id*-1);
     }else{
         exit(2);
     }
 }
 
-
-int CheckPenguinsToPlace(Board *board,int PenguinsToPlace,int my_id){
+/**
+ * @brief This function checks whether the program can place a penguin, taking into account the upper limit of penguins.
+ * 
+ * @param board Pointer to the Board structure representing the game board.
+ * @param PenguinsToPlace Integer value storing information about the number of penguins per player.
+ * 
+ * @return 0 if the player can place a penguin; 1 if all penguins are placed.
+ */
+int checkPenguinsToPlace(Board *board,int PenguinsToPlace,int my_id){
     int counter=0;
     for(int i=0;i<board->rows;i++)
     {

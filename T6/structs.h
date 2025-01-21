@@ -23,11 +23,15 @@ typedef struct Player {
     int score; /**< The total score of the player. */
 } Player;
 
-
+/**
+ * @brief Structure representing an autonomous player in the game.
+ * 
+ * This structure contains information about the player's name, ID, and points.
+ */
 typedef struct AutonomousPlayer{
-    char name[50];
-    int id;
-    int points;
+    char name[50];  /**< The name of the player. */
+    int id;         /**< The unique ID of the player. */
+    int points;     /**< The total points scored by the player. */
 }AutonomousPlayer;
 
 #endif /* STRUCTS_H */

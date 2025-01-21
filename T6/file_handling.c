@@ -7,9 +7,18 @@
 #include "utils.h"
 #include "placement.h"
 
-
-
-void ReadFile(Board *board, char *file_name, AutonomousPlayer **players, int *num_players)
+/**
+ * @brief Reads the game board and player information from a file.
+ * 
+ * This function reads the contents of the specified file and initializes the game board
+ * 
+ * @param board a pointer to the Board structure that will be initialized with the file data.
+ * @param file_name a string representing the name of the file to be read.
+ * @param players a pointer to an array of AutonomousPlayer pointers that will be initialized with the player data.
+ * @param num_players a pointer to an integer that will be set to the number of players read from the file.
+ * @return void
+ */
+void readFile(Board *board, char *file_name, AutonomousPlayer **players, int *num_players)
 {
     FILE *file = fopen(file_name, "r");
     if (file == NULL)
@@ -42,7 +51,7 @@ void ReadFile(Board *board, char *file_name, AutonomousPlayer **players, int *nu
             }
             board->columns = atoi(token);
 
-            if (!ValidateBoardDimensions(board))
+            if (!validateBoardDimensions(board))
             {
                 printf("Error: Invalid board dimensions.\n");
                 exit(2); // Critical error: terminate program.
@@ -112,14 +121,22 @@ void ReadFile(Board *board, char *file_name, AutonomousPlayer **players, int *nu
     fclose(file);
 
     // Final validation.
-    if (!ValidatePlayerData(*players, *num_players))
+    if (!validatePlayerData(*players, *num_players))
     {
         printf("Error: Invalid player data.\n");
         exit(2); // Critical error: terminate program.
     }
 }
 
-int CheckInputValidity(Board *board)
+/**
+ * @brief Validates the input data read from the file.
+ *
+ * This function validates the input data read from the file. It checks the board dimensions
+ * 
+ * @param board A pointer to the Board structure to be validated.
+ * @return int
+ */
+int checkInputValidity(Board *board)
 {
     if (board == NULL || board->rows <= 0 || board->columns <= 0)
     {
@@ -131,28 +148,47 @@ int CheckInputValidity(Board *board)
     {
         for (int j = 0; j < board->columns; j++)
         {
-            if (board->array[i][j] > 3 || board->array[i][j]<-9)
+            if (board->array[i][j] > 3 || board->array[i][j] < -9)
             {
                 printf("Error: Invalid value at row %d, column %d.\n", i, j);
                 return 0; // Invalid value detected.
             }
-                
         }
     }
 
     return 1; // Input is valid.
 }
 
-int ValidateBoardDimensions(Board *board)
+/**
+ * @brief Validates the dimensions of the given board.
+ *
+ * @param board A pointer to the Board structure to be validated.
+ * @return int Returns 0 if the dimensions are valid, otherwise returns an error code.
+ */
+int validateBoardDimensions(Board *board)
 {
     return (board->rows > 0 && board->columns > 0 && board->rows <= 100 && board->columns <= 100);
 }
 
-int ValidatePlayerData(const AutonomousPlayer *players, int num_players)
+/**
+ * @brief Validates the data of autonomous players.
+ *
+ * This function checks the validity of the data for a given array of
+ * AutonomousPlayer structures. It ensures that the data meets the
+ * required criteria and returns a status code indicating the result
+ * of the validation.
+ *
+ * @param players Pointer to an array of AutonomousPlayer structures.
+ * @param num_players The number of players in the array.
+ * @return int Status code indicating the result of the validation:
+ *         - 0: Validation successful.
+ *         - 1: Validation failed due to invalid data.
+ */
+int validatePlayerData(const AutonomousPlayer *players, int num_players)
 {
     for (int i = 0; i < num_players; i++)
     {
-        if (players[i].id <= 0 ||players[i].id>9 || strlen(players[i].name) == 0 || players[i].points < 0)
+        if (players[i].id <= 0 || players[i].id > 9 || strlen(players[i].name) == 0 || players[i].points < 0)
         {
             printf("Error: Invalid data for player %d.\n", i);
             return 0; // Invalid player data.
@@ -161,36 +197,68 @@ int ValidatePlayerData(const AutonomousPlayer *players, int num_players)
     return 1; // All player data is valid.
 }
 
-void AppendMyPlayer(char* OutputFileName,char* name, int my_id,int num_players)
+/**
+ * @brief Appends player information to the specified output file.
+ *
+ * This function takes the name of an output file, a player's name, and their ID,
+ * and appends the player's information to the file.
+ *
+ * @param output_file_name The name of the file to which the player's information will be appended.
+ * @param name The name of the player to be appended.
+ * @param my_id The ID of the player to be appended.
+ * @param num_players number of players.
+ */
+void appendMyPlayer(char *output_file_name, char *name, int my_id, int num_players)
 {
-    FILE *pf=fopen(OutputFileName,"a");
-    if(num_players!=0)
+    FILE *pf = fopen(output_file_name, "a");
+    if (num_players != 0)
     {
-        fprintf(pf,"\n");
+        fprintf(pf, "\n");
     }
-    fprintf(pf,"%s %d 1",name,my_id);
+    fprintf(pf, "%s %d 1", name, my_id);
     fclose(pf);
 }
 
-int AssignId(AutonomousPlayer players[],int num_players)
+/**
+ * @brief Assigns unique IDs to an array of AutonomousPlayer objects.
+ *
+ * This function iterates through the provided array of AutonomousPlayer objects
+ * and assigns a unique ID to each player. The IDs are assigned sequentially starting
+ * from 1 up to the number of players.
+ *
+ * @param players An array of AutonomousPlayer objects to which IDs will be assigned.
+ * @param num_players The number of players in the array.
+ * @return The number of players that were successfully assigned an ID.
+ */
+int assignId(AutonomousPlayer players[], int num_players)
 {
-    for(int i=1;i<10;i++)
+    for (int i = 1; i < 10; i++)
     {
-        int flag=1;
-        for(int j=0;j<num_players;j++)
+        int flag = 1;
+        for (int j = 0; j < num_players; j++)
         {
-            if(players[j].id==i)
+            if (players[j].id == i)
             {
-                flag=0;
+                flag = 0;
             }
         }
-        if(flag){
+        if (flag)
+        {
             return i;
         }
     }
     return 10;
 }
 
+/**
+ * @brief Interprets the given token and returns the corresponding integer value.
+ *
+ * This function takes a token as input, interprets it according to the
+ * implementation, and returns the corresponding integer value.
+ *
+ * @param token The token to be interpreted.
+ * @return An integer representing the interpreted value.
+ */
 int interpretValueRead(char *token)
 {
     if (strcmp(token, "00") == 0)
@@ -200,14 +268,20 @@ int interpretValueRead(char *token)
     else if (strcmp(token, "10") == 0 || strcmp(token, "20") == 0 || strcmp(token, "30") == 0)
     {
         return atoi(token) / 10;
-    }else if(strlen(token)<=1){
+    }
+    else if (strlen(token) <= 1)
+    {
         printf("Invalid value detected on a tile, changing tile value to 0");
         return 0;
-    }else if(atoi(token)>=11 && atoi(token)<=39)
+    }
+    else if (atoi(token) >= 11 && atoi(token) <= 39)
     {
-        if(atoi(token)>=11 && atoi(token)<20) return -(atoi(token)-10);
-        if(atoi(token)>=21 && atoi(token)<30) return -(atoi(token)-20);
-        else return -(atoi(token)-30);
+        if (atoi(token) >= 11 && atoi(token) < 20)
+            return -(atoi(token) - 10);
+        if (atoi(token) >= 21 && atoi(token) < 30)
+            return -(atoi(token) - 20);
+        else
+            return -(atoi(token) - 30);
     }
     else
     {
@@ -215,6 +289,18 @@ int interpretValueRead(char *token)
     }
 }
 
+/**
+ * @brief Interprets the given value and writes it to a specific destination.
+ *
+ * This function takes an integer value as input, processes it according to
+ * the implementation, and writes the interpreted result to a predefined
+ * destination (e.g., a file, a buffer, etc.).
+ *
+ * @param value The integer value to be interpreted and written.
+ * @return An integer indicating the success or failure of the operation.
+ *         Typically, a return value of 0 indicates success, while a non-zero
+ *         value indicates an error.
+ */
 int interpretValueWrite(int value)
 {
     if (value == 0)
@@ -232,7 +318,15 @@ int interpretValueWrite(int value)
     }
 }
 
-void WriteFile(Board *board, char *file_name, AutonomousPlayer players[], int num_players)
+/**
+ * @brief Writes the game board and player information to a file.
+ *
+ * @param board
+ * @param file_name
+ * @param players
+ * @param num_players
+ */
+void writeFile(Board *board, char *file_name, AutonomousPlayer players[], int num_players)
 {
     FILE *file = fopen(file_name, "w+");
     if (file == NULL)
@@ -262,4 +356,3 @@ void WriteFile(Board *board, char *file_name, AutonomousPlayer players[], int nu
 
     fclose(file);
 }
-

@@ -3,7 +3,17 @@
 #include "movement.h"
 #include "utils.h"
 
-void MovePenguin(Board *board, int *x, int *y, int *x1, int *y1, int sign)
+/**
+ * @brief This function moves a penguin to a new tile on the board after performing validations.
+ * 
+ * @param board Pointer to the Board structure representing the game board.
+ * @param x Pointer to the x-coordinate of the penguin's current location.
+ * @param y Pointer to the y-coordinate of the penguin's current location.
+ * @param x1 Pointer to the x-coordinate of the penguin's new location.
+ * @param y1 Pointer to the y-coordinate of the penguin's new location.
+ * @param sign An integer symbol denoting the player's penguin.
+ */
+void movePenguin(Board *board, int *x, int *y, int *x1, int *y1, int sign)
 {
     int newX = *x1;
     int newY = *y1;
@@ -13,7 +23,20 @@ void MovePenguin(Board *board, int *x, int *y, int *x1, int *y1, int sign)
     board->array[oldX][oldY] = 0;
 }
 
-int ValidateMove(Board *board, int x, int y, int x1, int y1)
+/**
+ * @brief This function validates the move and places the penguin at the specified new location.
+ * 
+ * This function validates the move by checking if the path is blocked and if the penguin is moving in a straight line in 4 directions.
+ * 
+ * @param board Pointer to the Board structure representing the game board.
+ * @param x Pointer to the x-coordinate of the penguin's current location.
+ * @param y Pointer to the y-coordinate of the penguin's current location.
+ * @param x1 Pointer to the x-coordinate of the penguin's new location.
+ * @param y1 Pointer to the y-coordinate of the penguin's new location.
+ * @param sign An integer symbol denoting the player's penguin.
+ * @return 1 if valid, 0 otherwise.
+ */
+int validateMove(Board *board, int x, int y, int x1, int y1)
 {
     if (x == x1 && y == y1)
     {
@@ -74,7 +97,17 @@ int ValidateMove(Board *board, int x, int y, int x1, int y1)
     }
 }
 
-int CheckSurrounding(int i, int j, Board *board)
+/**
+ * @brief This function checks if a penguin can make a valid move from its current location.
+ * 
+ * This function verifies the surrounding tiles of the penguin to determine if a move is possible.
+ * 
+ * @param i The x-coordinate of the penguin's current location.
+ * @param j The y-coordinate of the penguin's current location.
+ * @param board Pointer to the Board structure representing the game board.
+ * @return 0 if the penguin can move; 1 if it is stuck.
+ */
+int checkSurrounding(int i, int j, Board *board)
 {
     // Check if the penguin can move to any of the four adjacent cells
     if (i + 1 < board->rows && (board->array[i + 1][j] == 1 || board->array[i + 1][j] == 2 || board->array[i + 1][j] == 3))
@@ -88,10 +121,18 @@ int CheckSurrounding(int i, int j, Board *board)
     return 1;
 }
 
-
+/**
+ * @brief This function checks if a player is completely stuck and unable to move any penguin for the autonomous mode.
+ * 
+ * This function iterates through the player's penguins to determine if all are immobile.
+ * 
+ * @param board Pointer to the Board structure representing the game board.
+ * @param sign An integer symbol denoting the player's penguin.
+ * @return 0 if the player can make a move; 1 if all penguins are stuck.
+ */
 int checkStuckAutomatically(Board *board, int sign)
 {
-    int totalCounter = 0;
+    int total_counter = 0;
     int penguins=0;
     for (int i = 0; i < board->rows; i++)
     {
@@ -100,18 +141,18 @@ int checkStuckAutomatically(Board *board, int sign)
             if (board->array[i][j] == sign)
             {
                 penguins++;
-                if (CheckSurrounding(i, j, board) == 0)
+                if (checkSurrounding(i, j, board) == 0)
                 {
                     continue;
                 }
                 else
                 {
-                    totalCounter++;
+                    total_counter++;
                 }
             }
         }
     }
-    if (totalCounter == penguins)
+    if (total_counter == penguins)
     {
         return 1;
     }
@@ -121,28 +162,37 @@ int checkStuckAutomatically(Board *board, int sign)
     }
 }
 
-int CheckStuck(Board *board, int sign)
+/**
+ * @brief This function checks if a player is completely stuck and unable to move any penguin for the PvP mode.
+ * 
+ * This function iterates through the player's penguins to determine if all are immobile.
+ * 
+ * @param board Pointer to the Board structure representing the game board.
+ * @param sign An integer symbol denoting the player's penguin.
+ * @return 0 if the player can make a move; 1 if all penguins are stuck.
+ */
+int checkStuck(Board *board, int sign)
 {
-    int totalCounter = 0;
+    int total_counter = 0;
     for (int i = 0; i < board->rows; i++)
     {
         for (int j = 0; j < board->columns; j++)
         {
             if (board->array[i][j] == sign)
             {
-                if (CheckSurrounding(i, j, board) == 0)
+                if (checkSurrounding(i, j, board) == 0)
                 {
                     continue;
                 }
                 else
                 {
-                    totalCounter++;
+                    total_counter++;
                 }
             }
         }
     }
 
-    if (totalCounter == board->penguins_per_player)
+    if (total_counter == board->penguins_per_player)
     {
         printf("\nPlayer %d can not move.\n", sign - 5);
         return 1;
@@ -154,8 +204,17 @@ int CheckStuck(Board *board, int sign)
     }
 }
 
-// Function to check if any player can move
-int CanMove(Board *board, AutonomousPlayer *players, int num_players, int my_id)
+/**
+ * @brief This function moves the penguin autonomously using logic.
+ * 
+ * This function iterates through the 2D array to find the best move in the current game state. it Utilizes the checkStuckAutomatically function
+ * 
+ * @param board Pointer to the Board structure representing the game board with interpreted values from input file.
+ * @param players Pointer to the AutonomousPlayer structure representing the players in the game.
+ * @param num_players The number of players in the game.
+ * @param my_id The ID of the player running the program.
+ */
+int canMove(Board *board, AutonomousPlayer *players, int num_players, int my_id)
 {
     for (int i = 0; i < num_players; i++)
     {   
@@ -167,7 +226,18 @@ int CanMove(Board *board, AutonomousPlayer *players, int num_players, int my_id)
     return 0; // players cannot move
 }
 
-void MoveAutonomously(Board *board, AutonomousPlayer *players, int num_players, int my_id)
+/**
+ * @brief This function moves the penguin autonomously using logic.
+ * 
+ * This function iterates through the 2D array to find the best move in the current game state by checking the fish on and around the floes. It checks in 4 directions
+ * for the best move, then checks again around that new best move location to find potentially more fish, if the total comes back as the best move, the penguin is moved.
+ * 
+ * @param board Pointer to the Board structure representing the game board with interpreted values from input file.
+ * @param players Pointer to the AutonomousPlayer structure representing the players in the game.
+ * @param num_players The number of players in the game.
+ * @param my_id The ID of the player running the program.
+ */
+void moveAutonomously(Board *board, AutonomousPlayer *players, int num_players, int my_id)
 {
     int best_i = -1, best_j = -1, best_x = -1, best_y = -1;
     int max_fish = 0, max_surrounding_fish = 0; // the floes with the most fish on and around them

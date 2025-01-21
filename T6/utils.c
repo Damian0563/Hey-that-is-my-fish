@@ -5,20 +5,33 @@
 #include "utils.h"
 #include <ctype.h>
 
-
-int askForPlayers(int numPlayer) {
+/**
+ * @brief This function asks the user to enter the number of players.
+ * 
+ * @param num_players the number of players participating in the game.
+ *
+ * @return int representing the number of players that were successfully assigned an ID.
+ */
+int askForPlayers(int num_players) {
     char term;
     do {
         printf("Enter the number of players from 2 to 4: ");
-        if (scanf("%d%c", &numPlayer, &term) != 2 || term != '\n') {
+        if (scanf("%d%c", &num_players, &term) != 2 || term != '\n') {
             while (getchar() != '\n'); // Clear invalid input
-            numPlayer = 0; // Reset to ensure the loop continues
+            num_players = 0; // Reset to ensure the loop continues
         }
-    } while (numPlayer < 2 || numPlayer > 4);
-    return numPlayer;
+    } while (num_players < 2 || num_players > 4);
+    return num_players;
 }
 
-void AskForDimensions(Board* board) {
+/**
+ * @brief This function asks the user to enter the dimensions of the board.
+ * 
+ * This function clears the console screen by printing a series of newline characters.
+ * 
+ * @param board Pointer to the Board structure to initialize. 
+ */
+void askForDimensions(Board* board) {
     char term;
     do {
         printf("How many rows should the board have: ");
@@ -37,7 +50,12 @@ void AskForDimensions(Board* board) {
     } while (board->columns <= 0);
 }
 
-void AskForPenguins(Board* board) {
+/**
+ * @brief This function asks the user to enter the number of penguins each player should have.
+ * 
+ * @param board Pointer to the Board structure to initialize.
+ */
+void askForPenguins(Board* board) {
     char term;
     do {
         printf("How many penguins each player should have: ");
@@ -48,7 +66,13 @@ void AskForPenguins(Board* board) {
     } while (board->penguins_per_player <= 0);
 }
 
-void AskForCoordinates(int* x, int* y) {
+/**
+ * @brief This function asks the user to enter the coordinates to place their penguins in placement phase.
+ * 
+ * @param x Pointer to the x-coordinate.
+ * @param y Pointer to the y-coordinate.
+ */
+void askForCoordinates(int* x, int* y) {
     char term;
     do {
         printf("Enter where would you like to place your penguin (x y): ");
@@ -59,7 +83,16 @@ void AskForCoordinates(int* x, int* y) {
     } while (*x < 0 || *y < 0);
 }
 
-void AskForCoordinatesOfPenguin(int *x, int *y, int sign, Board* board) {
+/**
+ * @brief This function asks the user to enter the coordinates of their own penguin that they want to move
+ * 
+ * @param board Pointer to the board structure.
+ * @param x The x-coordinate to validate.
+ * @param y The y-coordinate to validate.
+ * 
+ * @return 1 if valid, 0 otherwise.
+ */
+void askForCoordinatesOfPenguin(int *x, int *y, int sign, Board* board) {
     int newX;
     int newY;
     if(board->penguins_per_player==1){
@@ -107,7 +140,17 @@ void AskForCoordinatesOfPenguin(int *x, int *y, int sign, Board* board) {
     }
 }
 
-void AskForCoordinatesMovement(int *x, int *y, int *x1, int *y1, int sign, Board* board) {
+/**
+ * @brief This function asks the user to enter the coordinates of the penguin they want to move to and check if its vald.
+ * 
+ * @param x Pointer to the x-coordinate of the penguin.
+ * @param y Pointer to the y-coordinate of the penguin.
+ * @param x1 Pointer to the new x-coordinate of the penguin.
+ * @param y1 Pointer to the new y-coordinate of the penguin.
+ * @param sign The player's penguin identifier.
+ * @param board Pointer to the board structure.
+ */
+void askForCoordinatesMovement(int *x, int *y, int *x1, int *y1, int sign, Board* board) {
     char term;
     int valid = 0;
     do {
@@ -125,37 +168,63 @@ void AskForCoordinatesMovement(int *x, int *y, int *x1, int *y1, int sign, Board
     } while (!valid);
 }
 
-void initializePlayers(int numPlayer, Player players[]) 
+/**
+ * @brief This function initializes the players' scores to 0 depending on the number of players.
+ * 
+ * @param num_players The number of players participating in the game.
+ * @param players An array of Player structures representing the players.
+ */
+void initializePlayers(int num_players, Player players[]) 
 {                  
-    for (int i = 0; i < numPlayer; i++) 
+    for (int i = 0; i < num_players; i++) 
     {   
         players[i].score = 0;
     }
 }
 
-int ValidateDimensionsAndPenguins(Board* board, int numPlayer) {
-    if (board->rows > 0 && board->columns > 0 && board->penguins_per_player * numPlayer > board->rows*board->columns) {
+/**
+ * @brief This function validates the dimensions and total penguin count on the board to see that its possible to squeeze all penguins onto the board.
+ * 
+ * @param board Pointer to the Board structure to be validated.
+ * @param num_players The number of players.
+ * 
+ * @return 1 if valid, 0 otherwise.
+ */
+int validateDimensionsAndPenguins(Board* board, int num_players) {
+    if (board->rows > 0 && board->columns > 0 && board->penguins_per_player * num_players > board->rows*board->columns) {
         printf("Invalid parameters\n");
         return 0;
     }
     return 1;
 }
 
-void printScores(Player players[], int numPlayer) 
+/**
+ * @brief This function prints the scores of all players.
+ * 
+ * @param players An array of Player structures representing the players.
+ * @param num_players The number of players participating in the game.
+ */
+void printScores(Player players[], int num_players) 
 {
     printf("\nScores:\n");
-    for (int i = 0; i < numPlayer; i++) 
+    for (int i = 0; i < num_players; i++) 
     {
         printf("Player %d score: %d\n", i+1, players[i].score);
     }
 }
 
-void summerization(Player players[], int numPlayer)
+/**
+ * @brief This function prints the winner of the game.
+ * 
+ * @param players An array of Player structures representing the players.
+ * @param num_players The number of players participating in the game.
+ */
+void summerization(Player players[], int num_players)
 {
     int highest = 0;
     int player = 0;
     int occurance = 0;
-    for(int i=0;i<numPlayer;i++)
+    for(int i=0;i<num_players;i++)
     {
         if(players[i].score>highest)
         {
@@ -180,7 +249,12 @@ void summerization(Player players[], int numPlayer)
     }
 }
 
-void ShowBoard(Board* board)
+/**
+ * @brief This function prints the board.
+ * 
+ * @param board Pointer to the Board structure representing the game board.
+ */
+void showBoard(Board* board)
 {
     printf("\n   ");
     for (int j = 0; j < board->columns; j++) 
@@ -217,7 +291,12 @@ void ShowBoard(Board* board)
     }
 }
 
-void FreeBoard(Board *board) {
+/**
+ * @brief This function frees the memory allocated for the board.
+ * 
+ * @param board Pointer to the Board structure to be initialized.
+ */
+void freeBoard(Board *board) {
     for (int i = 0; i < board->rows; i++) {
         free(board->array[i]); // Free each row
     }
@@ -228,7 +307,16 @@ void FreeBoard(Board *board) {
     board->penguins_per_player=0;
 }
 
-int ValidateCoordinates(Board* board, int x, int y) {
+/**
+ * @brief This function validates the new coordinates chosen by user.
+ * 
+ * @param board Pointer to the Board structure representing the game board.
+ * @param x The x-coordinate of the penguin.
+ * @param y The y-coordinate of the penguin.
+ * 
+ * @return 1 if valid, 0 otherwise.
+ */
+int validateCoordinates(Board* board, int x, int y) {
     if (x < board->rows && x >= 0 && y < board->columns && y >= 0) {
         if (board->array[x][y] == 1) {
             return 0;
@@ -241,7 +329,15 @@ int ValidateCoordinates(Board* board, int x, int y) {
     return 1;
 }
 
-int GetMyId(AutonomousPlayer players[],char* name,int num_players){
+/**
+ * @brief This function finds the ID of the player.
+ * 
+ * @param board Pointer to the Board structure representing the game board.
+ * @param sign An integer symbol denoting the player's penguin.
+ * 
+ * @return 0 if the player can make a move; 1 if all penguins are stuck.
+ */
+int getMyId(AutonomousPlayer players[],char* name,int num_players){
     for(int i=0;i<num_players;i++)
     {
         if (strcmp(players[i].name,name)==0) return players[i].id;
@@ -250,7 +346,15 @@ int GetMyId(AutonomousPlayer players[],char* name,int num_players){
     return 0;
 }
 
-int CheckPresence(AutonomousPlayer players[],char* name,int num_players){
+/**
+ * @brief This function checks if the player exists or not on the board.
+ * 
+ * @param board Pointer to the Board structure representing the game board.
+ * @param sign An integer symbol denoting the player's penguin.
+ * 
+ * @return 0 if the player can make a move; 1 if all penguins are stuck.
+ */
+int checkPresence(AutonomousPlayer players[],char* name,int num_players){
     
     for(int i=0;i<num_players;i++)
     {
@@ -262,7 +366,15 @@ int CheckPresence(AutonomousPlayer players[],char* name,int num_players){
     return 0;
 }
 
-void IncrementScore(AutonomousPlayer players[],int num_players,int id,int points){
+/**
+ * @brief This function increments the score of the player.
+ * 
+ * @param players An array of AutonomousPlayer objects.
+ * @param num_players The number of players in the array.
+ * @param id The ID of the player.
+ * @param points The points to be added to the player's score.
+ */
+void incrementScore(AutonomousPlayer players[],int num_players,int id,int points){
     for(int i=0;i<num_players;i++)
     {
         if(players[i].id==id)

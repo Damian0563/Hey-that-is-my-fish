@@ -15,7 +15,7 @@
  * @param players A pointer to an array of AutonomousPlayer pointers that will be initialized with the player data.
  * @param num_players A pointer to an integer that will be set to the number of players read from the file.
  */
-void ReadFile(Board* board,char* file_name, AutonomousPlayer **players, int* num_players);
+void readFile(Board* board,char* file_name, AutonomousPlayer **players, int* num_players);
 
 /**
  * @brief Writes the current state of the board and player information to a file.
@@ -25,7 +25,7 @@ void ReadFile(Board* board,char* file_name, AutonomousPlayer **players, int* num
  * @param players Array of AutonomousPlayer objects representing the players.
  * @param num_players The number of players in the players array.
  */
-void WriteFile(Board* board,char* filename, AutonomousPlayer players[], int num_players);
+void writeFile(Board* board,char* file_name, AutonomousPlayer players[], int num_players);
 
 /**
  * @brief Interprets a value read from a token.
@@ -62,7 +62,7 @@ int interpretValueWrite(int value);
  * @return An integer indicating the validity of the input. Typically, 
  *         a non-zero value indicates invalid input, while zero indicates valid input.
  */
-int CheckInputValidity(Board* board);
+int checkInputValidity(Board* board);
 
 /**
  * @brief Assigns unique IDs to an array of AutonomousPlayer objects.
@@ -75,7 +75,7 @@ int CheckInputValidity(Board* board);
  * @param num_players The number of players in the array.
  * @return The number of players that were successfully assigned an ID.
  */
-int AssignId(AutonomousPlayer players[],int num_players);
+int assignId(AutonomousPlayer players[],int num_players);
 
 /**
  * @brief Appends player information to the specified output file.
@@ -88,7 +88,7 @@ int AssignId(AutonomousPlayer players[],int num_players);
  * @param my_id The ID of the player to be appended.
  * @param num_players number of players.
  */
-void AppendMyPlayer(char* OutputFileName,char* name, int my_id,int num_players);
+void appendMyPlayer(char* output_file_name,char* name, int my_id,int num_players);
 
 
 /**
@@ -99,7 +99,7 @@ void AppendMyPlayer(char* OutputFileName,char* name, int my_id,int num_players);
  * @param board A pointer to the Board structure to be validated.
  * @return int Returns 0 if the dimensions are valid, otherwise returns an error code.
  */
-int ValidateBoardDimensions(Board *board);
+int validateBoardDimensions(Board *board);
 
 
 /**
@@ -116,6 +116,6 @@ int ValidateBoardDimensions(Board *board);
  *         - 0: Validation successful.
  *         - 1: Validation failed due to invalid data.
  */
-int ValidatePlayerData(const AutonomousPlayer *players, int num_players);
+int validatePlayerData(const AutonomousPlayer *players, int num_players);
 
 #endif
