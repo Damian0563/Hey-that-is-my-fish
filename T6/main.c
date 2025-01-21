@@ -1,3 +1,12 @@
+/**
+ * @file main.c
+ * @author Team D
+ * @brief 
+ * @date 2025-01-02
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
 #define Autonomous
 #include <stdio.h>
 #include <time.h>

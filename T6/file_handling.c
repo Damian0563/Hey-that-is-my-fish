@@ -1,3 +1,12 @@
+/**
+ * @file file_handling.c
+ * @author Team D
+ * @brief 
+ * @date 2025-01-02
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
