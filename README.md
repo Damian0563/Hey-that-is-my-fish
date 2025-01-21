@@ -24,7 +24,7 @@ Contributions list:
 
 -Nguyen Huynh Gia Bao:
 
--Priyanshu Rajput:
+-Priyanshu Rajput: fixation of errors throughout the project, additional checks to terminate, taking inputs from the user utils.c , unit testing, assignment of doxygen styled comments in few functions.
 
 
 
