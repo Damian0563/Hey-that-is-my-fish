@@ -1,7 +1,7 @@
 /**
  * @file movement.c
  * @author Team D
- * @brief 
+ * @brief This file contains the implementation of functions for moving penguins on the game board.
  * @date 2025-01-02
  * 
  * @copyright Copyright (c) 2025

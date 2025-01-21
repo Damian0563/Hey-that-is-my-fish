@@ -1,7 +1,7 @@
 /**
  * @file structs.c
  * @author Team D
- * @brief 
+ * @brief This file holds the structure definitions for the game.
  * @date 2025-01-02
  * 
  * @copyright Copyright (c) 2025

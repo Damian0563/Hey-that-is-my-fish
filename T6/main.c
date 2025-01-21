@@ -1,7 +1,7 @@
 /**
  * @file main.c
  * @author Team D
- * @brief 
+ * @brief This file contains the main function and the entry point of the program.
  * @date 2025-01-02
  * 
  * @copyright Copyright (c) 2025

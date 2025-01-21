@@ -1,7 +1,7 @@
 /**
  * @file file_handling.c
  * @author Team D
- * @brief 
+ * @brief This file contains the implementation of functions for accessing and editing input/output files
  * @date 2025-01-02
  * 
  * @copyright Copyright (c) 2025
