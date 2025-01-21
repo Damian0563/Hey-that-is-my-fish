@@ -104,21 +104,21 @@ void readFile(Board *board, char *file_name, AutonomousPlayer **players, int *nu
             if (token == NULL)
             {
                 printf("Warning: Missing player name.\n");
-                return; // Soft error: do not terminate.
+                exit(2); // Terminate due to critical error.
             }
             strncpy((*players)[*num_players].name, token, sizeof((*players)[*num_players].name) - 1);
             token = strtok(NULL, " ");
             if (token == NULL)
             {
                 printf("Warning: Missing player ID.\n");
-                return; // Soft error: do not terminate.
+                exit(2); // Terminate due to critical error.
             }
             (*players)[*num_players].id = atoi(token);
             token = strtok(NULL, " ");
             if (token == NULL)
             {
                 printf("Warning: Missing player points.\n");
-                return; // Soft error: do not terminate.
+                exit(2); // Terminate due to critical error.
             }
             (*players)[*num_players].points = atoi(token);
             (*num_players)++;
